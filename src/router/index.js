@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '../pages/Index.vue'
-import Movie from '../pages/Movie.vue'
-import Music from '../pages/Music.vue'
-import Book from '../pages/Book.vue'
-import Group from '../pages/Group.vue'
-import SubjectItem from '../pages/SubjectItem.vue'
+import Index from '../pages/Index'
+import Movie from '../pages/Movie'
+import Music from '../pages/Music'
+import Book from '../pages/Book'
+import Group from '../pages/Group'
+import SubjectItem from '../pages/SubjectItem'
 
 Vue.use(Router)
 
