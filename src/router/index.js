@@ -1,63 +1,45 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Hello from '@/components/Hello'
-import Home from '../pages/Home'
-import Group from '../pages/Group'
-import Book from '../pages/Book'
-import Movie from '../pages/Movie'
-import Music from '../pages/Music'
-import Index from '../pages/Index'
-import NotFound from '../pages/NotFound'
+import Index from '../pages/Index.vue'
+import Movie from '../pages/Movie.vue'
+import Music from '../pages/Music.vue'
+import Book from '../pages/Book.vue'
+import Group from '../pages/Group.vue'
+import SubjectItem from '../pages/SubjectItem.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '',
-      redirect: '/pages'
+      path: '/',
+      name: 'Index',
+      component: Index
     },
     {
-      path: '/pages',
-      name: 'Home',
-      component: Home,
-      children: [
-        {
-          path: '',
-          name: 'Index',
-          component: Index
-        },
-        {
-          path: 'book',
-          name: 'Book',
-          component: Book
-        },
-        {
-          path: 'music',
-          name: 'Music',
-          component: Music
-        },
-        {
-          path: 'Movie',
-          name: 'Movie',
-          component: Movie
-        },
-        {
-          path: 'group',
-          name: 'Group',
-          component: Group
-        },
-        {
-          path: '*',
-          name: 'NotFound',
-          component: NotFound
-        }
-      ]
+      path: '/movie',
+      name: 'Movie',
+      component: Movie
     },
     {
-      path: '*',
-      name: 'NotFound',
-      component: NotFound
+      path: '/music',
+      name: 'Music',
+      component: Music
+    },
+    {
+      path: '/book',
+      name: 'Book',
+      component: Book
+    },
+    {
+      path: '/group',
+      name: 'Group',
+      component: Group
+    },
+    {
+      path: '/:classify/subject/:id',
+      name: 'SubjectItem',
+      component: SubjectItem
     }
   ]
 })

@@ -1,13 +1,10 @@
 <template>
-  <div id="douban_book">
-    <div>书籍1121</div>
+  <div id="bookWrapper">
+    <div>the book page</div>
   </div>
 </template>
 <script>
   export default {
-    name: 'Book'
+    name: 'book'
   }
 </script>
-<style>
-
-</style>
