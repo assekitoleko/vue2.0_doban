@@ -5,7 +5,10 @@ export default {
     subject: {},
     classify: '',
     directors: '',
-    casts: ''
+    casts: '',
+    genres: '',
+    countries: '',
+    aka: ''
   },
   mutations: {
     getSingleSubject (state, payload) {
@@ -17,6 +20,9 @@ export default {
       state.casts = payload.res.casts.map((item, index) => {
         return item.name
       }).join('/')
+      state.genres = payload.res.genres.join('/')
+      state.countries = payload.res.countries.join('/')
+      state.aka = payload.res.aka.join(',')
     }
   },
   actions: {

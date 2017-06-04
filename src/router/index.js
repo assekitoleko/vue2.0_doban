@@ -6,6 +6,7 @@ import Music from '../pages/Music'
 import Book from '../pages/Book'
 import Group from '../pages/Group'
 import SubjectItem from '../pages/SubjectItem'
+import Login from '../pages/Login'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/:classify/subject/:id',
       name: 'SubjectItem',
       component: SubjectItem
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     }
   ]
 })

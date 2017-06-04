@@ -13,7 +13,7 @@
 </script>
 <style>
   .loading {
-    margin: 20px;
+    margin: 100px auto;
   }
   img {
     widht:80px;

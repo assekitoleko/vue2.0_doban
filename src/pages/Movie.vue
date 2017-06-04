@@ -1,6 +1,5 @@
 <template>
   <div id="indexWrapper">
-    <div>the movie page</div>
     <div class="moviesSection">
       <p>影院热映</p>
       <ul class='hotMovies'>
@@ -16,8 +15,10 @@
       <p>即将上映</p>
       <ul class="newMovies">
         <li v-for="movie in newMovies">
-          <img :src="movie.images.medium" />
-          <span>{{movie.title}}</span>
+          <router-link :to="'/movie/subject/' + movie.id">
+            <img :src="movie.images.medium" />
+            <span>{{movie.title}}</span>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -25,8 +26,10 @@
       <p>top250</p>
       <ul class="topMovies">
         <li v-for="movie in topMovies">
-          <img :src="movie.images.medium" />
-          <span>{{movie.title}}</span>
+          <router-link :to="'/movie/subject/' + movie.id">
+            <img :src="movie.images.medium" />
+            <span>{{movie.title}}</span>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -56,7 +59,7 @@
   #indexWrapper ul li{
     float:left;
   }
-  div li{
+  div.moviesSection li{
     display: flex;
     align-items: center;
     flex-direction: column;
