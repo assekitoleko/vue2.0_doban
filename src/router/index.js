@@ -7,6 +7,7 @@ import Book from '../pages/Book'
 import Group from '../pages/Group'
 import SubjectItem from '../pages/SubjectItem'
 import Login from '../pages/Login'
+import SubjectList from '../pages/SubjectList'
 
 Vue.use(Router)
 
@@ -20,7 +21,14 @@ export default new Router({
     {
       path: '/movie',
       name: 'Movie',
-      component: Movie
+      component: Movie,
+      children: [
+        {
+          path: ':type',
+          name: 'SubjectList',
+          component: SubjectList
+        }
+      ]
     },
     {
       path: '/music',
