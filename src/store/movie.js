@@ -10,12 +10,15 @@ export default {
     getMovie (state, payload) {
       switch (payload.tag) {
         case 'hotMovies':
+        case 'in_theaters':
           state.hotMovies = payload.res
           break
         case 'newMovies':
+        case 'coming_soon':
           state.newMovies = payload.res
           break
         case 'topMovies':
+        case 'top250':
           state.topMovies = payload.res
           break
         default:
@@ -57,6 +60,17 @@ export default {
       })
       .catch((err) => {
         console.log(err)
+      })
+    },
+    getMovieList ({commit}, payload) {
+      let url = 'https://api.douban.com/v2/movie/' + payload.sort + '?count=20'
+      axios.get(url)
+      .then((res) => {
+        commit({
+          type: 'getMovie',
+          tag: payload.sort,
+          res: res.data.subjects
+        })
       })
     }
   }
