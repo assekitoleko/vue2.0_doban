@@ -2,27 +2,24 @@ import axios from 'axios'
 
 export default {
   state: {
-    hotMovies: [],
-    newMovies: [],
-    topMovies: []
+    in_theaters: [],
+    coming_soon: [],
+    top250: []
   },
   mutations: {
     getMovie (state, payload) {
       switch (payload.tag) {
-        case 'hotMovies':
         case 'in_theaters':
-          state.hotMovies = payload.res
+          state.in_theaters = payload.more ? state.in_theaters.concat(payload.res) : payload.res
           break
-        case 'newMovies':
         case 'coming_soon':
-          state.newMovies = payload.res
+          state.coming_soon = payload.more ? state.coming_soon.concat(payload.res) : payload.res
           break
-        case 'topMovies':
         case 'top250':
-          state.topMovies = payload.res
+          state.top250 = payload.more ? state.top250.concat(payload.res) : payload.res
           break
         default:
-          state.hotMovies = payload.res
+          state.top250 = payload.res
       }
     }
   },
@@ -32,7 +29,7 @@ export default {
       .then((res) => {
         commit({
           type: 'getMovie',
-          tag: 'hotMovies',
+          tag: 'in_theaters',
           res: res.data.subjects
         })
       })
@@ -43,7 +40,7 @@ export default {
       .then((res) => {
         commit({
           type: 'getMovie',
-          tag: 'newMovies',
+          tag: 'coming_soon',
           res: res.data.subjects
         })
       })
@@ -54,7 +51,7 @@ export default {
       .then((res) => {
         commit({
           type: 'getMovie',
-          tag: 'topMovies',
+          tag: 'top250',
           res: res.data.subjects
         })
       })
@@ -71,6 +68,21 @@ export default {
           tag: payload.sort,
           res: res.data.subjects
         })
+      })
+    },
+    loadMore ({commit, state}, payload) {
+      console.log('begin load more')
+      axios.get('https://api.douban.com/v2/movie/' + payload + '?count=20&start=' + state[payload].length)
+      .then((res) => {
+        commit({
+          type: 'getMovie',
+          tag: payload,
+          res: res.data.subjects,
+          more: true
+        })
+      })
+      .catch((err) => {
+        console.log(err)
       })
     }
   }

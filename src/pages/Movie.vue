@@ -72,9 +72,9 @@
       }
     },
     computed: mapState({
-      hotMovies: state => state.movie.hotMovies,
-      topMovies: state => state.movie.topMovies,
-      newMovies: state => state.movie.newMovies
+      hotMovies: state => state.movie.in_theaters,
+      topMovies: state => state.movie.top250,
+      newMovies: state => state.movie.coming_soon
     }),
     methods: {
       getMovie () {
@@ -89,7 +89,7 @@
     }
   }
 </script>
-<style>
+<style scoped>
   #indexWrapper ul li{
     float:left;
   }

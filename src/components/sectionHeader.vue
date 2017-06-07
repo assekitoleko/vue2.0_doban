@@ -32,6 +32,9 @@
     background: url('../assets/search_icon.png') no-repeat 0 -40px;
   }
   .section_header_itemList ul{
-    overflow:hidden;
+    overflow: hidden;
+  }
+  .section_header_itemList ul li{
+    float: left;
   }
 </style>

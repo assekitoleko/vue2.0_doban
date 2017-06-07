@@ -31,7 +31,6 @@ export default {
         let url = 'https://api.douban.com/v2/' + payload.classify + '/subject/' + payload.id
         axios.get(url)
         .then((res) => {
-          console.log(res)
           commit({
             type: 'getSingleSubject',
             classify: payload.classify,
