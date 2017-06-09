@@ -34,9 +34,10 @@
         })
       },
       onInfinite () {
-        console.log('11111')
-        this.loadMore(this.$route.params.type)
-        this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+        setTimeout(() => {
+          this.loadMore(this.$route.params.type)
+          this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+        }, 3000)
       },
       ...mapActions(['loadMore'])
     },
@@ -51,6 +52,7 @@
 <style>
   .movie_item{
     display: flex;
+    height: 200px;
   }
   #SubjectList_wrapper{
     width: 60%;

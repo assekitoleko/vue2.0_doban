@@ -72,6 +72,7 @@ export default {
     },
     loadMore ({commit, state}, payload) {
       console.log('begin load more')
+      console.log('https://api.douban.com/v2/movie/' + payload + '?count=20&start=' + state[payload].length)
       axios.get('https://api.douban.com/v2/movie/' + payload + '?count=20&start=' + state[payload].length)
       .then((res) => {
         commit({

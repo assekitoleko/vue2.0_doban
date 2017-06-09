@@ -8,6 +8,7 @@ import Group from '../pages/Group'
 import SubjectItem from '../pages/SubjectItem'
 import Login from '../pages/Login'
 import SubjectList from '../pages/SubjectList'
+import MovieIndex from '../pages/MovieIndex'
 
 Vue.use(Router)
 
@@ -27,6 +28,11 @@ export default new Router({
           path: ':type',
           name: 'SubjectList',
           component: SubjectList
+        },
+        {
+          path: '',
+          name: 'MovieIndex',
+          component: MovieIndex
         }
       ]
     },
