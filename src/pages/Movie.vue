@@ -11,7 +11,7 @@
     name: 'movie',
     data () {
       return {
-        icon: '../assets/douban_movie_icon',
+        icon: require('../assets/doban_movie_icon.png'),
         searchUrl: '/v2/movie/search?q=',
         itemList: [
           {

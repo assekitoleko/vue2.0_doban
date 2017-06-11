@@ -9,6 +9,7 @@ import SubjectItem from '../pages/SubjectItem'
 import Login from '../pages/Login'
 import SubjectList from '../pages/SubjectList'
 import MovieIndex from '../pages/MovieIndex'
+import Celebrity from '../pages/Celebrity'
 
 Vue.use(Router)
 
@@ -33,6 +34,16 @@ export default new Router({
           path: '',
           name: 'MovieIndex',
           component: MovieIndex
+        },
+        {
+          path: 'search/:content',
+          name: 'SubjectList',
+          component: SubjectList
+        },
+        {
+          path: 'celebrity/:id',
+          name: 'celebrity',
+          component: Celebrity
         }
       ]
     },

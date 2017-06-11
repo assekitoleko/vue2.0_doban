@@ -6,6 +6,8 @@ import music from './music'
 import book from './book'
 import group from './group'
 import SubjectItem from './SubjectItem'
+import search from './search'
+import celebrity from './celebrity'
 
 Vue.use(Vuex)
 
@@ -15,6 +17,8 @@ export default new Vuex.Store({
     music,
     book,
     group,
+    search,
+    celebrity,
     SubjectItem
   }
 })

@@ -4,7 +4,8 @@ export default {
   state: {
     in_theaters: [],
     coming_soon: [],
-    top250: []
+    top250: [],
+    noMoreMovie: false
   },
   mutations: {
     getMovie (state, payload) {
@@ -21,6 +22,12 @@ export default {
         default:
           state.top250 = payload.res
       }
+    },
+    noMoreMovie (state) {
+      state.noMoreMovie = true
+    },
+    resetMoreStatus (state) {
+      state.noMoreMovie = false
     }
   },
   actions: {
@@ -60,27 +67,39 @@ export default {
       })
     },
     getMovieList ({commit}, payload) {
-      let url = 'https://api.douban.com/v2/movie/' + payload.sort + '?count=20'
-      axios.get(url)
-      .then((res) => {
-        commit({
-          type: 'getMovie',
-          tag: payload.sort,
-          res: res.data.subjects
+      return new Promise((resolve, reject) => {
+        let url = 'https://api.douban.com/v2/movie/' + payload.sort + '?count=20'
+        console.log(111, url)
+        axios.get(url)
+        .then((res) => {
+          commit({
+            type: 'getMovie',
+            tag: payload.sort,
+            res: res.data.subjects
+          })
+          resolve(res)
+        })
+        .catch((err) => {
+          reject(err)
         })
       })
     },
     loadMore ({commit, state}, payload) {
-      console.log('begin load more')
-      console.log('https://api.douban.com/v2/movie/' + payload + '?count=20&start=' + state[payload].length)
       axios.get('https://api.douban.com/v2/movie/' + payload + '?count=20&start=' + state[payload].length)
       .then((res) => {
-        commit({
-          type: 'getMovie',
-          tag: payload,
-          res: res.data.subjects,
-          more: true
-        })
+        console.log(res)
+        if (res.data.subjects.length === 0) {
+          commit({
+            type: 'noMoreMovie'
+          })
+        } else {
+          commit({
+            type: 'getMovie',
+            tag: payload,
+            res: res.data.subjects,
+            more: true
+          })
+        }
       })
       .catch((err) => {
         console.log(err)

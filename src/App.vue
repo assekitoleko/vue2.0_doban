@@ -2,15 +2,17 @@
   <div id="app">
     <headerNav></headerNav>
     <router-view></router-view>
+    <pageFoot></pageFoot>
   </div>
 </template>
 
 <script>
-import headerNav from './components/headerNav.vue'
+import headerNav from './components/headerNav'
+import pageFoot from './components/footer'
 
 export default {
   name: 'app',
-  components: {headerNav}
+  components: {headerNav, pageFoot}
 }
 </script>
 
@@ -25,5 +27,9 @@ export default {
  }
  li{
    list-style: none;
+ }
+ .main{
+   width: 60%;
+   margin:0 auto;
  }
 </style>
