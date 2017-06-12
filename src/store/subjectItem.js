@@ -14,9 +14,7 @@ export default {
     getSingleSubject (state, payload) {
       state.classify = payload.classify
       state.subject = payload.res
-      state.directors = payload.res.directors.map((item, index) => {
-        return item.name
-      }).join('/')
+      state.directors = payload.res.directors
       state.casts = payload.res.casts.map((item, index) => {
         return item.name
       }).join('/')

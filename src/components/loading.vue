@@ -14,6 +14,7 @@
 <style>
   .loading {
     margin: 100px auto;
+    text-align:center;
   }
   img {
     widht:80px;

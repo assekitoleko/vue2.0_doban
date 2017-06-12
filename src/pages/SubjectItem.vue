@@ -7,7 +7,11 @@
           <img :src="subject.images.medium" />
         </div>
         <div class="movie_content_items">
-          <p><span>导演:</span>{{directors}}</p>
+          <p><span>导演:</span>
+            <router-link v-for="director in directors" :to="'/movie/celebrity/' + director.id" :key="director.id">
+              {{director.name}}
+            </router-link>
+          </p>
           <p><span>主演:</span>{{casts}}</p>
           <p><span>影片类型:</span>{{genres}}</p>
           <p><span>制片国家/地区:</span>{{countries}}</p>
@@ -69,7 +73,8 @@ export default {
   components: {loading, marking}
 }
 </script>
-<style>
+<style lang="scss">
+  $fontSize:14px;
   #SubjectItem{
     width: 500px;
     margin: 15px auto 0;
@@ -81,8 +86,10 @@ export default {
   }
   .movie_content_items{
     margin-left: 15px;
-    color: #111;
-    font-size: 14px;
+    font-size: $fontSize;
+  }
+  .movie_content_items a{
+    color:#111;
   }
   .movie_content_items p{
     line-height: 22px;
