@@ -12,7 +12,11 @@
               {{director.name}}
             </router-link>
           </p>
-          <p><span>主演:</span>{{casts}}</p>
+          <p><span>主演:</span>
+            <router-link v-for="cast in casts" :to="'/movie/celebrity/' + cast.id" :key="cast.id">
+              {{cast.name}}
+            </router-link>
+          </p>
           <p><span>影片类型:</span>{{genres}}</p>
           <p><span>制片国家/地区:</span>{{countries}}</p>
           <p><span>又名:</span>{{aka}}</p>

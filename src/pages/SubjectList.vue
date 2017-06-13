@@ -52,10 +52,8 @@
     },
     methods: {
       getMovieList () {
-        console.log('restart list')
         this.loading = true
         let content = this.$route.params.content
-        console.log(content)
         if (!content) {
           let type = this.$route.params.type
           this.$store.dispatch({

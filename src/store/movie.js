@@ -5,6 +5,7 @@ export default {
     in_theaters: [],
     coming_soon: [],
     top250: [],
+    us_box: [],
     noMoreMovie: false
   },
   mutations: {
@@ -18,6 +19,9 @@ export default {
           break
         case 'top250':
           state.top250 = payload.more ? state.top250.concat(payload.res) : payload.res
+          break
+        case 'us_box':
+          state.us_box = payload.more ? state.us_box.concat(payload.res) : payload.res
           break
         default:
           state.top250 = payload.res
@@ -69,9 +73,9 @@ export default {
     getMovieList ({commit}, payload) {
       return new Promise((resolve, reject) => {
         let url = 'https://api.douban.com/v2/movie/' + payload.sort + '?count=20'
-        console.log(111, url)
         axios.get(url)
         .then((res) => {
+          console.log(res)
           commit({
             type: 'getMovie',
             tag: payload.sort,

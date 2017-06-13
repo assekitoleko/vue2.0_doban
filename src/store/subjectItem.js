@@ -15,9 +15,7 @@ export default {
       state.classify = payload.classify
       state.subject = payload.res
       state.directors = payload.res.directors
-      state.casts = payload.res.casts.map((item, index) => {
-        return item.name
-      }).join('/')
+      state.casts = payload.res.casts
       state.genres = payload.res.genres.join('/')
       state.countries = payload.res.countries.join('/')
       state.aka = payload.res.aka.join(',')
