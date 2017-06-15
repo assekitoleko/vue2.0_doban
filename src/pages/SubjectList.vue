@@ -5,6 +5,20 @@
       <div v-if="isSearch && movieList.length === 0" class="notFound">
         <span>豆瓣没有这部电影</span>
       </div>
+      <ul v-else-if="isUsBox">
+        <li v-for="movie in movieList">
+          <div class="movie_item">
+            <div><img :src="movie.subject.images.medium"</div>
+            <div>
+              <p><span>上周排名:</span>{{movie.rank}}</p>
+              <p><span>总票房:</span>{{movie.box}}万美元</p>
+              <p><span>是否新上映:</span>{{movie.new}}</p>
+              <p>{{movie.subject.title}}</p>
+              <p><span>评分:</span>{{movie.subject.rating.average}}</p>
+            </div>
+          </div>
+        </li>
+      </ul>
       <ul v-else>
         <li v-for="movie in movieList">
           <div class="movie_item">
@@ -48,6 +62,9 @@
       },
       noMoreMovie () {
         return this.$store.state.movie.noMoreMovie
+      },
+      isUsBox () {
+        return this.$route.params.type === 'us_box'
       }
     },
     methods: {
