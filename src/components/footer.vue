@@ -20,13 +20,13 @@
 <style scoped>
   #pageFoot{
     display:flex;
-    position:fixed;
+    /*position:s;
     bottom:0;
     left:0;
-    right:0;
+    right:0;*/
     border-top:1px dashed #ddd;
     width: 60%;
-    margin:-20px auto 0;
+    margin:20px auto 0;
     padding:10px 0;
     justify-content: space-between;
     color:#999;

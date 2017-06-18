@@ -91,7 +91,6 @@ export default {
     loadMore ({commit, state}, payload) {
       axios.get('https://api.douban.com/v2/movie/' + payload + '?count=20&start=' + state[payload].length)
       .then((res) => {
-        console.log(res)
         if (res.data.subjects.length === 0) {
           commit({
             type: 'noMoreMovie'

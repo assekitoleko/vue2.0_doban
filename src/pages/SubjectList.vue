@@ -7,31 +7,31 @@
       </div>
       <ul v-else-if="isUsBox">
         <li v-for="movie in movieList">
-          <div class="movie_item">
-            <div><img :src="movie.subject.images.medium"</div>
-            <div>
+          <router-link :to="'/movie/subject/' + movie.subject.id" class="movie_item">
+            <div><img :src="movie.subject.images.medium" /></div>
+            <div class="movie_item_desc">
               <p><span>上周排名:</span>{{movie.rank}}</p>
-              <p><span>总票房:</span>{{movie.box}}万美元</p>
-              <p><span>是否新上映:</span>{{movie.new}}</p>
               <p>{{movie.subject.title}}</p>
-              <p><span>评分:</span>{{movie.subject.rating.average}}</p>
+              <p><span>上周票房:</span>{{Math.round(movie.box*0.0001)}}万美元</p>
+              <p><span>是否新上映:</span>{{movie.new ? 'NEW':'Already on screen'}}</p>
+              <p><span>评分:</span>{{movie.subject.rating.average === 0 ? '暂无评分':movie.subject.rating.average}}</p>
             </div>
-          </div>
+          </router-link>
         </li>
       </ul>
       <ul v-else>
         <li v-for="movie in movieList">
-          <div class="movie_item">
+          <router-link :to="'/movie/subject/' + movie.id" class="movie_item">
             <div><img :src="movie.images.medium" /></div>
-            <div>
+            <div class="movie_item_desc">
               <p>{{movie.title}} {{movie.original_title}}</p>
               <p>{{movie.year}}</p>
               <p>{{movie.rating.average}}</p>
             </div>
-          </div>
+          </router-link>
         </li>
       </ul>
-      <InfiniteLoading ref="infiniteLoading" :on-infinite="onInfinite" v-if="!isSearch">
+      <InfiniteLoading ref="infiniteLoading" :on-infinite="onInfinite" v-if="!isSearch && !isUsBox">
         <span slot="no-more">客官，我们真的只能找到这么多了...</span>
         <span slot="no-results">对不起 啥都找不到啊！</span>
       </InfiniteLoading>
@@ -93,19 +93,15 @@
         }
       },
       onInfinite () {
-        if (this.isSearch) {
-          this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
-        } else {
-          this.$store.commit('resetMoreStatus')
-          setTimeout(() => {
-            this.loadMore(this.$route.params.type)
-            if (this.noMoreMovie) {
-              this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
-            } else {
-              this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
-            }
-          }, 3000)
-        }
+        this.$store.commit('resetMoreStatus')
+        setTimeout(() => {
+          this.loadMore(this.$route.params.type)
+          if (this.noMoreMovie) {
+            this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+          } else {
+            this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+          }
+        }, 3000)
       },
       ...mapActions(['loadMore'])
     },
@@ -121,14 +117,31 @@
     }
   }
 </script>
-<style>
+<style lang='scss'>
+  $fontSize:14px;
   .movie_item{
     display: flex;
-    height: 200px;
+    padding:10px 0;
+    width: 550px;
+    border-bottom: 1px dashed #ddd;
+    font-size:$fontSize;
+
+    .movie_item_desc{
+      margin-left:15px;
+      color: #111;
+      line-height: 24px;
+      span{
+        color:#666;
+        margin-right:5px;
+      }
+    }
+  }
+  .movie_item:last-child{
+    border: none;
   }
   #SubjectList_wrapper{
     width: 60%;
-    margin: 0 auto;
+    margin: 10px auto;
   }
   .notFound{
     color:#072;

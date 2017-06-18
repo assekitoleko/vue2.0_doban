@@ -16,6 +16,9 @@
       <li>
         <router-link to="/group" class="group_option">小组</router-link>
       </li>
+      <li>
+        <router-link to='/login' class="login">登陆</router-link>
+      </li>
     </ul>
   </div>
 </template>
