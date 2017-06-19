@@ -32,4 +32,7 @@ export default {
    width: 60%;
    margin:0 auto;
  }
+ #app{
+   min-height: 500px;
+ }
 </style>
