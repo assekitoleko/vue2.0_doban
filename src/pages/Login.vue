@@ -8,6 +8,7 @@
      <p>
        <label for='password'>密码</label><input type='password' id='password' name='password' v-model="user.password" />
      </p>
+     <input type='submit' name='submit' value="submit" />
     </form>
   </div>
 </template>
@@ -24,8 +25,8 @@
     },
     methods: {
       submit () {
-        let jsonValue = JSON.stringfy(this.user)
-        this.$store.dispath({
+        let jsonValue = JSON.stringify(this.user)
+        this.$store.dispatch({
           type: 'login',
           formData: jsonValue
         })

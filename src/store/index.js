@@ -8,6 +8,7 @@ import group from './group'
 import SubjectItem from './SubjectItem'
 import search from './search'
 import celebrity from './celebrity'
+import login from './login'
 
 Vue.use(Vuex)
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     group,
     search,
     celebrity,
+    login,
     SubjectItem
   }
 })

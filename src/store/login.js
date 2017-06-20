@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default {
   state: {
     useraccont: '',
@@ -7,8 +9,14 @@ export default {
 
   },
   actions: {
-    login ({commit},payload) {
-      
+    login ({commit}, payload) {
+      axios.get('/api/posts')
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   }
 }
