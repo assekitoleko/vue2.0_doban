@@ -16,31 +16,73 @@
       <li>
         <router-link to="/group" class="group_option">小组</router-link>
       </li>
-      <li>
-        <router-link to='/login' class="login">登陆</router-link>
+      <li @mouseenter="enter" @mouseleave="leave">
+        <router-link :to='logInfo.route' class="login">{{logInfo.username}}</router-link>
+        <ul class='account_actions' ref='account_actions'>
+          <li @click='logout' id='logout'>退出</li>
+        </ul>
       </li>
     </ul>
   </div>
 </template>
 <script>
+  // import {mapState} from 'vuex'
   export default {
-    name: 'headerNav'
+    name: 'headerNav',
+    computed: {
+      username () {
+        if (!this.$store.state.login.username) {
+          this.$store.commit('getuser')
+        }
+        return this.$store.state.login.username
+      },
+      logInfo () {
+        // console.log(this.$store.getters.username)
+        return {
+          username: this.username ? this.username : '登陆',
+          route: this.username ? `/user/${this.$store.state.login.user_id}` : '/login'
+        }
+      }
+    },
+    methods: {
+      enter () {
+        if (this.logInfo.username !== '登陆') {
+          this.$refs.account_actions.style.display = 'block'
+        }
+      },
+      leave () {
+        if (this.logInfo.username !== '登陆') {
+          this.$refs.account_actions.style.display = 'none'
+        }
+      },
+      logout () {
+        this.$store.commit('logout')
+        this.$router.push('/login')
+      }
+      // getuser () {
+      //   if (!this.$store.state.login.userInfo.username) {
+      //     this.$store.commit('getuser')
+      //   }
+      //   return this.$store.state.login.userInfo.username
+      // }
+    }
   }
 </script>
-<style>
+<style scoped="" lang='scss'>
   #headerNav{
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
     border-bottom: 1px solid #f3f3f3;
   }
-  #headerNav ul{
+  #headerNav>ul{
     display: flex;
     align-items: center;
     margin-right: 20px;
   }
   #headerNav ul li{
     margin-left: 15px;
+    position: relative;
   }
   #headerNav span{
     margin-left: 25px;
@@ -60,5 +102,20 @@
   }
   .group_option{
     color:#2AB8CC
+  }
+  .account_actions{
+    display:none;
+    position:absolute;
+    top:15px;
+    left:-5px;
+    color: #666;
+    #logout{
+      margin:10px 0 0 0;
+      padding:5px;
+      cursor: pointer;
+      font-size:14px;
+      border: 1px solid #ddd;
+      white-space: nowrap;
+    }
   }
 </style>

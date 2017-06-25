@@ -10,10 +10,12 @@ import Login from '../pages/Login'
 import SubjectList from '../pages/SubjectList'
 import MovieIndex from '../pages/MovieIndex'
 import Celebrity from '../pages/Celebrity'
+import User from '../pages/User'
+import store from '../store/index'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -56,7 +58,10 @@ export default new Router({
     {
       path: '/book',
       name: 'Book',
-      component: Book
+      component: Book,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/group',
@@ -72,6 +77,34 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/user/:id',
+      name: 'User',
+      component: User,
+      meta: {
+        requireAuth: true
+      }
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requireAuth)) {
+    console.log(from, to)
+    if (store.state.login.user_id) {
+      next()
+    } else {
+      next({
+        path: '/login',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+  } else {
+    next()
+  }
+})
+
+export default router
