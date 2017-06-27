@@ -28,6 +28,9 @@
           <router-link :to="{ name: 'Login'}">{{subject.collect_count}}人看过</router-link>
         </template>
       </marking>
+      <div>
+        <button class='editComment'>写点评</button>
+      </div>
       <div class="movie_desc">
         <span style="line-height:30px;">{{subject.title}}的剧情简介.......</span>
         <p>
@@ -77,7 +80,7 @@ export default {
   components: {loading, marking}
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   $fontSize:14px;
   #SubjectItem{
     width: 500px;
@@ -120,5 +123,15 @@ export default {
     font-size: 12px;
     line-height: 1.72;
     color: #111;
+  }
+  .editComment{
+    padding: 6px 14px;
+    margin-top: 15px;
+    border-radius: 3px;
+    background: #337ab7;
+    box-shadow: 0 0 0;
+    color: #fff;
+    border-color: #2e6da4;
+    cursor: pointer;
   }
 </style>

@@ -11,11 +11,11 @@ import SubjectList from '../pages/SubjectList'
 import MovieIndex from '../pages/MovieIndex'
 import Celebrity from '../pages/Celebrity'
 import User from '../pages/User'
-import store from '../store/index'
+// import store from '../store/index'
 
 Vue.use(Router)
 
-const router = new Router({
+export default new Router({
   mode: 'history',
   routes: [
     {
@@ -89,22 +89,19 @@ const router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requireAuth)) {
-    console.log(from, to)
-    if (store.state.login.user_id) {
-      next()
-    } else {
-      next({
-        path: '/login',
-        query: {
-          redirect: to.fullPath
-        }
-      })
-    }
-  } else {
-    next()
-  }
-})
-
-export default router
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.requireAuth)) {
+//     if (store.state.login.user_id) {
+//       next()
+//     } else {
+//       next({
+//         path: '/login',
+//         query: {
+//           redirect: to.fullPath
+//         }
+//       })
+//     }
+//   } else {
+//     next()
+//   }
+// })

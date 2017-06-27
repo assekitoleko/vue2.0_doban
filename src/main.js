@@ -15,10 +15,5 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App },
-  created () {
-    console.log('main.js execute')
-    store.state.login.user_id = localStorage.getItem('user_id')
-    store.state.login.username = localStorage.getItem('username')
-  }
+  components: { App }
 })

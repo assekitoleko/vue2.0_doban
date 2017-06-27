@@ -17,7 +17,7 @@
         <router-link to="/group" class="group_option">小组</router-link>
       </li>
       <li @mouseenter="enter" @mouseleave="leave">
-        <router-link :to='logInfo.route' class="login">{{logInfo.username}}</router-link>
+        <router-link :to='loginInfo.route' class="login">{{loginInfo.username}}</router-link>
         <ul class='account_actions' ref='account_actions'>
           <li @click='logout' id='logout'>退出</li>
         </ul>
@@ -30,30 +30,27 @@
   export default {
     name: 'headerNav',
     computed: {
-      username () {
-        if (!this.$store.state.login.username) {
+      logedIn () {
+        if (!this.$store.state.login.user_id) {
           this.$store.commit('getuser')
         }
-        return this.$store.state.login.username
+        return this.$store.state.login.user_id
       },
-      logInfo () {
-        // console.log(this.$store.getters.username)
+      loginInfo () {
         return {
-          username: this.username ? this.username : '登陆',
-          route: this.username ? `/user/${this.$store.state.login.user_id}` : '/login'
+          username: this.logedIn ? this.$store.state.login.username : '登录',
+          route: this.logedIn ? `/user/${this.$store.state.login.user_id}` : '/login'
         }
       }
     },
     methods: {
       enter () {
-        if (this.logInfo.username !== '登陆') {
+        if (this.logedIn) {
           this.$refs.account_actions.style.display = 'block'
         }
       },
       leave () {
-        if (this.logInfo.username !== '登陆') {
-          this.$refs.account_actions.style.display = 'none'
-        }
+        this.$refs.account_actions.style.display = 'none'
       },
       logout () {
         this.$store.commit('logout')
