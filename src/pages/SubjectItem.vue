@@ -29,7 +29,7 @@
         </template>
       </marking>
       <div>
-        <button class='editComment'>写点评</button>
+        <button class='editComment' @click='postComment'>写点评</button>
       </div>
       <div class="movie_desc">
         <span style="line-height:30px;">{{subject.title}}的剧情简介.......</span>
@@ -39,12 +39,14 @@
       </div>
     </div>
     <loading v-show="showLoading"></loading>
+    <postComment />
   </div>
 </template>
 <script>
 import {mapState} from 'vuex'
 import loading from '../components/loading'
 import marking from '../components/marking'
+import postComment from '../components/postComment'
 
 export default {
   name: 'SubjectItem',
@@ -70,6 +72,9 @@ export default {
       }).then((res) => {
         this.showLoading = false
       })
+    },
+    postComment () {
+      this.$modal.show('postComment')
     }
   },
   created () {
@@ -77,7 +82,7 @@ export default {
     const classify = this.$route.params.classify
     this.getSingleSubject(classify, id)
   },
-  components: {loading, marking}
+  components: {loading, marking, postComment}
 }
 </script>
 <style lang="scss" scoped>
@@ -129,9 +134,8 @@ export default {
     margin-top: 15px;
     border-radius: 3px;
     background: #337ab7;
-    box-shadow: 0 0 0;
     color: #fff;
-    border-color: #2e6da4;
+    border: 1px solid transparent;
     cursor: pointer;
   }
 </style>
