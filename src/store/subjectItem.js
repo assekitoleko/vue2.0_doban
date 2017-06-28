@@ -35,6 +35,20 @@ export default {
           resolve(res)
         })
       })
+    },
+    submitComment ({commit}, payload) {
+      let url = '/api/comments'
+      axios.post(url, {
+        user_id: payload.user_id,
+        item_id: payload.item_id,
+        comment: payload.comment
+      })
+      .then((res) => {
+        console.log('post success')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   }
 }

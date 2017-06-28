@@ -39,7 +39,7 @@
       </div>
     </div>
     <loading v-show="showLoading"></loading>
-    <postComment />
+    <postComment :user_id='user_id' :item_id='$route.params.id' />
   </div>
 </template>
 <script>
@@ -61,7 +61,8 @@ export default {
     casts: state => state.SubjectItem.casts,
     genres: state => state.SubjectItem.genres,
     countries: state => state.SubjectItem.countries,
-    aka: state => state.SubjectItem.aka
+    aka: state => state.SubjectItem.aka,
+    user_id: state => state.login.user_id
   }),
   methods: {
     getSingleSubject (classify, id) {
@@ -74,7 +75,14 @@ export default {
       })
     },
     postComment () {
-      this.$modal.show('postComment')
+      if (this.user_id === '') {
+        this.$store.commit('getuser')
+      }
+      if (this.user_id) {
+        this.$modal.show('postComment')
+      } else {
+        this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}})
+      }
     }
   },
   created () {
