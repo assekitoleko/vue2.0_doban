@@ -12,11 +12,14 @@
       "item_id": "25824686",
       "comment": "test comment",
       "id": 1
+    },
+    {
+      "user_id": "1",
+      "item_id": "25863024",
+      "comment": "it is a good day for you",
+      "id": 2
     }
   ],
-  "profile": {
-    "name": "typicode"
-  },
   "accounts": [
     {
       "username": "sgq",
