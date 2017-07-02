@@ -37,9 +37,18 @@
           {{subject.summary}}
         </p>
       </div>
+      <div class='postsWrapper' v-show='posts.length'>
+        <p class='movie_desc'>{{subject.title}}的最新评论......</p>
+        <div class='posts'>
+          <div v-for="post in posts">
+            <p>{{post.username}} 看过 {{post.date}}<p>
+            <div>{{post.comment}}</div>
+          </div>
+        </div>
+      </div>
     </div>
     <loading v-show="showLoading"></loading>
-    <postComment :user_id='user_id' :item_id='$route.params.id' />
+    <postComment :user_id='user_id' :item_id='$route.params.id' :username='username' @postCommentCompleted='getNewComment' />
   </div>
 </template>
 <script>
@@ -62,7 +71,9 @@ export default {
     genres: state => state.SubjectItem.genres,
     countries: state => state.SubjectItem.countries,
     aka: state => state.SubjectItem.aka,
-    user_id: state => state.login.user_id
+    user_id: state => state.login.user_id,
+    username: state => state.login.username,
+    posts: state => state.SubjectItem.posts
   }),
   methods: {
     getSingleSubject (classify, id) {
@@ -83,6 +94,12 @@ export default {
       } else {
         this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}})
       }
+    },
+    getNewComment () {
+      this.$store.dispatch({
+        type: 'getNewComment',
+        item_id: this.subject.id
+      })
     }
   },
   created () {
@@ -98,7 +115,6 @@ export default {
   #SubjectItem{
     width: 500px;
     margin: 15px auto 0;
-    display: flex;
   }
   .movie_content{
     display: flex;

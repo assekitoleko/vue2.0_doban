@@ -13,9 +13,10 @@
   </modal>
 </template>
 <script>
+  import {getDateFormat} from '../util/baseUtil'
   export default {
     name: 'postComment',
-    props: ['user_id', 'item_id'],
+    props: ['user_id', 'item_id', 'username'],
     data () {
       return {
         comment: ''
@@ -23,11 +24,19 @@
     },
     methods: {
       submitComment () {
+        let d = getDateFormat()
         this.$store.dispatch({
           type: 'submitComment',
           user_id: this.user_id,
           item_id: this.item_id,
-          comment: this.comment
+          comment: this.comment,
+          username: this.username,
+          date: d
+        }).then((res) => {
+          this.$modal.hide('postComment')
+          this.$emit('postCommentCompleted')
+        }, (err) => {
+          console.log(err)
         })
       }
     }
