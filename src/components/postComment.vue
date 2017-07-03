@@ -1,19 +1,21 @@
 <template>
   <modal name="postComment" :classes="['v--modal', 'postComment']">
     <div class='commentWrapper'>
-      <p>给个评价吧?(可选) </p>
+      <p><span>给个评价吧?(可选)</span><rating-star></rating-star></p>
       <div class=''>
           <h3>写评价</h3>
           <textarea name='comment' v-model="comment" rows='6'></textarea>
       </div>
       <div>
-        <span @click='submitComment'>发布</span>
+        <span @click='submitComment' class='commit'>发布</span>
       </div>
     </div>
   </modal>
 </template>
 <script>
   import {getDateFormat} from '../util/baseUtil'
+  import ratingStar from './ratingStar'
+
   export default {
     name: 'postComment',
     props: ['user_id', 'item_id', 'username'],
@@ -39,15 +41,20 @@
           console.log(err)
         })
       }
+    },
+    components: {
+      ratingStar
     }
   }
 </script>
-<style scopde lang='scss'>
+<style scoped lang='scss'>
   .postComment{
     div.commentWrapper{
       padding:15px;
     }
     p{
+      display:flex;
+      align-items:center;
       margin-bottom:15px;
     }
     h3{
@@ -58,8 +65,9 @@
       box-sizing: border-box;
       padding:6px;
       width:100%;
+      resize: none;
     }
-    span{
+    span.commit{
       cursor: pointer;
       display: inline-block;
       padding: 6px 16px;

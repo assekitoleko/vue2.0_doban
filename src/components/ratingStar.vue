@@ -1,11 +1,7 @@
 <template>
-  <div id='ratingStar'>
-    <span>
-      <img src='../assets/star_hollow_hover.png' @mouseenter='rateEnter(1)' @mouseleave='rateLeave(1)' @click='rateScore(1)' ref='rate1' />
-      <img src='../assets/star_hollow_hover.png' @mouseenter='rateEnter(2)' @mouseleave='rateLeave(2)' @click='rateScore(2)' ref='rate2' />
-      <img src='../assets/star_hollow_hover.png' @mouseenter='rateEnter(3)' @mouseleave='rateLeave(3)' @click='rateScore(3)' ref='rate3' />
-      <img src='../assets/star_hollow_hover.png' @mouseenter='rateEnter(4)' @mouseleave='rateLeave(4)' @click='rateScore(4)' ref='rate4 '/>
-      <img src='../assets/star_hollow_hover.png' @mouseenter='rateEnter(5)' @mouseleave='rateLeave(5)' @click='rateScore(5)' ref='rate5 '/>
+  <div id='ratingStarWrapper'>
+    <span class='ratingStar' :style='backgroundPosition'>
+      <span v-for='n in 5' @mouseenter='rateEnter(n)' @mouseleave='rateLeave()' @click='rateScore(n)'></span>
     </span>
     <span class='rating-star-desc'>{{description}}</span>
     <input type='hidden' v-model="score" />
@@ -13,22 +9,78 @@
 </template>
 <script>
   export default {
-    name:'ratingStar',
+    name: 'ratingStar',
     data () {
       return {
-        description: ''
+        score: '',
+        description: '',
+        top: -150
       }
     },
-    methods:{
+    computed: {
+      backgroundPosition () {
+        return {
+          backgroundPosition: '0 ' + this.top + 'px'
+        }
+      }
+    },
+    methods: {
       rateEnter (score) {
-
+        switch (score) {
+          case 1:
+            this.description = '太差'
+            this.top = -120
+            break
+          case 2:
+            this.description = '较差'
+            this.top = -90
+            break
+          case 3:
+            this.description = '一般'
+            this.top = -60
+            break
+          case 4:
+            this.description = '较好'
+            this.top = -30
+            break
+          case 5:
+            this.description = '力荐'
+            this.top = 0
+            break
+          default:
+            break
+        }
       },
       rateLeave () {
-
+        if (this.score === '') {
+          this.description = ''
+          this.top = -150
+        }
       },
-      rateScore () {
-
+      rateScore (score) {
+        this.score = score
       }
     }
   }
 </script>
+<style lang='scss' scoped>
+  .ratingStar{
+    background-image: url('../assets/ic_rating_m.png');
+    background-repeat: no-repeat;
+    height:15px;
+    display: inline-block;
+    span{
+      display:inline-block;
+      width:15px;
+      height:15px;
+    }
+  }
+  #ratingStarWrapper{
+    display:inline-flex;
+    align-items: center;
+    margin-left:30px;
+    .rating-star-desc{
+      margin-left:15px;
+    }
+  }
+</style>
