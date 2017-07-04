@@ -41,7 +41,10 @@
         <p class='movie_desc'>{{subject.title}}的最新评论......</p>
         <div class='posts'>
           <div v-for="post in posts">
-            <p>{{post.username}} 看过 {{post.date}}<p>
+            <p>
+              {{post.username}} 看过 {{post.date}}
+              <rating-star :commitScore='post.score'></rating-star>
+            <p>
             <div>{{post.comment}}</div>
           </div>
         </div>
@@ -56,6 +59,7 @@ import {mapState} from 'vuex'
 import loading from '../components/loading'
 import marking from '../components/marking'
 import postComment from '../components/postComment'
+import ratingStar from '../components/ratingStar'
 
 export default {
   name: 'SubjectItem',
@@ -107,7 +111,7 @@ export default {
     const classify = this.$route.params.classify
     this.getSingleSubject(classify, id)
   },
-  components: {loading, marking, postComment}
+  components: {loading, marking, postComment, ratingStar}
 }
 </script>
 <style lang="scss" scoped>

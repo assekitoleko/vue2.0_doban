@@ -9,7 +9,8 @@ export default {
     genres: '',
     countries: '',
     aka: '',
-    posts: []
+    posts: [],
+    editScore: ''
   },
   mutations: {
     getSingleSubject (state, payload) {
@@ -23,6 +24,12 @@ export default {
     },
     getSubjectComment (state, payload) {
       state.posts = payload.res
+    },
+    editScore (state, payload) {
+      state.editScore = payload.score
+    },
+    resetEditScore (state) {
+      state.editScore = ''
     }
   },
   actions: {
@@ -64,9 +71,13 @@ export default {
           item_id: payload.item_id,
           comment: payload.comment,
           username: payload.username,
+          score: payload.score,
           date: payload.date
         })
         .then((res) => {
+          commit({
+            type: 'resetEditScore'
+          })
           resolve()
         })
         .catch((err) => {

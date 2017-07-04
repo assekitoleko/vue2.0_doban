@@ -1,28 +1,35 @@
 <template>
   <div id='ratingStarWrapper'>
-    <span class='ratingStar' :style='backgroundPosition'>
-      <span v-for='n in 5' @mouseenter='rateEnter(n)' @mouseleave='rateLeave()' @click='rateScore(n)'></span>
-    </span>
-    <span class='rating-star-desc'>{{description}}</span>
-    <input type='hidden' v-model="score" />
+    <div>
+      <span class='ratingStar' :style='backgroundPosition'>
+        <span v-for='n in 5' @mouseenter='rateEnter(n)' @mouseleave='rateLeave()' @click='rateScore(n)'></span>
+      </span>
+      <span class='rating-star-desc'>{{description}}</span>
+      <input type='hidden' v-model="score" />
+    </div>
   </div>
 </template>
 <script>
+  import {mapState} from 'vuex'
+
   export default {
     name: 'ratingStar',
     data () {
       return {
-        score: '',
         description: '',
         top: -150
       }
     },
+    props: ['commitScore'],
     computed: {
       backgroundPosition () {
         return {
           backgroundPosition: '0 ' + this.top + 'px'
         }
-      }
+      },
+      ...mapState({
+        score: state => state.SubjectItem.editScore
+      })
     },
     methods: {
       rateEnter (score) {
@@ -55,10 +62,15 @@
         if (this.score === '') {
           this.description = ''
           this.top = -150
+        } else {
+          this.rateEnter(this.score)
         }
       },
       rateScore (score) {
-        this.score = score
+        this.$store.commit({
+          type: 'editScore',
+          score: score
+        })
       }
     }
   }

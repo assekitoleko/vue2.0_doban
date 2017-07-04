@@ -15,6 +15,7 @@
 <script>
   import {getDateFormat} from '../util/baseUtil'
   import ratingStar from './ratingStar'
+  import {mapState} from 'vuex'
 
   export default {
     name: 'postComment',
@@ -24,8 +25,15 @@
         comment: ''
       }
     },
+    computed: mapState({
+      score: state => state.SubjectItem.editScore
+    }),
     methods: {
       submitComment () {
+        if (this.comment.trim() === '') {
+          alert('评论内容为空')
+          return
+        }
         let d = getDateFormat()
         this.$store.dispatch({
           type: 'submitComment',
@@ -33,8 +41,10 @@
           item_id: this.item_id,
           comment: this.comment,
           username: this.username,
+          score: this.score,
           date: d
         }).then((res) => {
+          this.comment = ''
           this.$modal.hide('postComment')
           this.$emit('postCommentCompleted')
         }, (err) => {
