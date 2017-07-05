@@ -2,6 +2,10 @@
   <div id="SubjectItem">
     <div class="subjectWrapper" v-if="!showLoading">
       <div class="movie_title">{{subject.title}} {{subject.original_title}} <span>({{subject.year}})</span></div>
+      <div class="subject_rating">
+        <rating-star :commitScore='(subject.rating.average)/2'></rating-star>
+        <span>{{subject.ratings_count}}人评价</span>
+      </div>
       <div class="movie_content">
         <div>
           <img :src="subject.images.medium" />
@@ -142,7 +146,7 @@ export default {
     font-size: 25px;
     color: #494949;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   .movie_title span{
     color: #888;
@@ -165,5 +169,13 @@ export default {
     color: #fff;
     border: 1px solid transparent;
     cursor: pointer;
+  }
+  .subject_rating{
+    display:flex;
+    margin-bottom: 10px;
+    span{
+      margin-left:10px;
+      color: #888;
+    }
   }
 </style>

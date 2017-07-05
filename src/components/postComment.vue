@@ -1,7 +1,7 @@
 <template>
   <modal name="postComment" :classes="['v--modal', 'postComment']">
     <div class='commentWrapper'>
-      <p><span>给个评价吧?(可选)</span><rating-star></rating-star></p>
+      <p><span>给个评价吧?</span><rating-star></rating-star></p>
       <div class=''>
           <h3>写评价</h3>
           <textarea name='comment' v-model="comment" rows='6'></textarea>
@@ -32,6 +32,10 @@
       submitComment () {
         if (this.comment.trim() === '') {
           alert('评论内容为空')
+          return
+        }
+        if (this.score === '') {
+          alert('拜托打个分吧')
           return
         }
         let d = getDateFormat()
@@ -66,6 +70,9 @@
       display:flex;
       align-items:center;
       margin-bottom:15px;
+      span{
+        margin-right:30px;
+      }
     }
     h3{
       font-size:16px;

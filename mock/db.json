@@ -6,7 +6,43 @@
       "author": "typicode"
     }
   ],
-  "comments": [    
+  "comments": [
+    {
+      "user_id": "1",
+      "item_id": "1292052",
+      "comment": "tsteasdfasdf",
+      "username": "sgq",
+      "score": 3,
+      "date": "2017-07-05",
+      "id": 1
+    },
+    {
+      "user_id": "1",
+      "item_id": "1292052",
+      "comment": "really good",
+      "username": "sgq",
+      "score": 4,
+      "date": "2017-07-05",
+      "id": 2
+    },
+    {
+      "user_id": "1",
+      "item_id": "1292052",
+      "comment": "asfkjas;flajs;",
+      "username": "sgq",
+      "score": 5,
+      "date": "2017-07-05",
+      "id": 3
+    },
+    {
+      "user_id": "1",
+      "item_id": "26766760",
+      "comment": " 啊十分大师傅",
+      "username": "sgq",
+      "score": 2,
+      "date": "2017-07-05",
+      "id": 4
+    }
   ],
   "accounts": [
     {

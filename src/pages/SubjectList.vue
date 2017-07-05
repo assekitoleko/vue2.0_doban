@@ -26,7 +26,14 @@
             <div class="movie_item_desc">
               <p>{{movie.title}} {{movie.original_title}}</p>
               <p>{{movie.year}}</p>
-              <p>{{movie.rating.average}}</p>
+              <p class='subject_rating'>
+                <template v-if='movie.rating.average'>
+                  <rating-star :commitScore='(movie.rating.average)/2'></rating-star><span>{{movie.rating.average}}</span>
+                </template>
+                <template v-else>
+                  <p>暂无评分</p>
+                </template>
+              </p>
             </div>
           </router-link>
         </li>
@@ -42,6 +49,7 @@
   import {mapActions} from 'vuex'
   import InfiniteLoading from 'vue-infinite-loading'
   import loading from '../components/loading'
+  import ratingStar from '../components/ratingStar'
   export default {
     name: 'SubjectList',
     data () {
@@ -110,14 +118,15 @@
     },
     components: {
       InfiniteLoading,
-      loading
+      loading,
+      ratingStar
     },
     watch: {
       '$route': 'getMovieList'
     }
   }
 </script>
-<style lang='scss'>
+<style lang='scss' scoped>
   $fontSize:14px;
   .movie_item{
     display: flex;
@@ -147,5 +156,14 @@
     color:#072;
     font-size: 14px;
     margin-top: 60px;
+  }
+  .subject_rating{
+    display:flex;
+    align-items:center;
+    margin-top:6px;
+    span{
+      margin-left:10px;
+      line-height:15px;
+    }
   }
 </style>

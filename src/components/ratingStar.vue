@@ -1,12 +1,17 @@
 <template>
   <div id='ratingStarWrapper'>
-    <div>
+    <template v-if='!commitScore'>
       <span class='ratingStar' :style='backgroundPosition'>
         <span v-for='n in 5' @mouseenter='rateEnter(n)' @mouseleave='rateLeave()' @click='rateScore(n)'></span>
       </span>
       <span class='rating-star-desc'>{{description}}</span>
       <input type='hidden' v-model="score" />
-    </div>
+    </template>
+    <template v-else>
+      <span class='ratingStar' :style='backgroundPosition'>
+        <span v-for='n in 5'></span>
+      </span>
+    </template>
   </div>
 </template>
 <script>
@@ -20,11 +25,15 @@
         top: -150
       }
     },
-    props: ['commitScore'],
+    props: {
+      'commitScore': {
+        default: 0
+      }
+    },
     computed: {
       backgroundPosition () {
         return {
-          backgroundPosition: '0 ' + this.top + 'px'
+          backgroundPosition: '0 ' + (30 * Math.round(this.commitScore) + this.top) + 'px'
         }
       },
       ...mapState({
@@ -90,7 +99,6 @@
   #ratingStarWrapper{
     display:inline-flex;
     align-items: center;
-    margin-left:30px;
     .rating-star-desc{
       margin-left:15px;
     }
