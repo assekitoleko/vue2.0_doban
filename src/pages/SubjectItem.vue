@@ -44,11 +44,16 @@
       <div class='postsWrapper' v-show='posts.length'>
         <p class='movie_desc'>{{subject.title}}的最新评论......</p>
         <div class='posts'>
-          <div v-for="post in posts">
-            <p>
-              {{post.username}} 看过 {{post.date}}
-              <rating-star :commitScore='post.score'></rating-star>
-            <p>
+          <div v-for="post in posts" class='subject_post'>
+            <div class='post_title'>
+              <p>
+                <span class=post_poster>{{post.username}}</span>
+                <span>看过</span>
+                <rating-star :commitScore='post.score'></rating-star>
+                <span class='post_time'>{{post.date}}</span>
+              </p>
+              <span class='post_vote'>{{post.vote}} <span>有用</span></span>
+            </div>
             <div>{{post.comment}}</div>
           </div>
         </div>
@@ -176,6 +181,39 @@ export default {
     span{
       margin-left:10px;
       color: #888;
+    }
+  }
+  .posts{
+    .post_title{
+      display:flex;
+      margin-bottom:6px;
+      justify-content: space-between;
+      p{
+        display:flex;
+        span{
+          margin-right:10px;
+        }
+      }
+      .post_poster{
+        color:#37a;
+        margin-right:4px;
+      }
+      .post_time{
+        color:#aaa;
+        margin-left:15px;
+      }
+      .post_vote{
+        margin: 0;
+        span{
+          color:#37a;
+        }
+      }
+    }
+    .subject_post{
+      padding:14px 0;
+      border-top:1px solid #ddd;
+      font-size:14px;
+      color:#494949;
     }
   }
 </style>

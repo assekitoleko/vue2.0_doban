@@ -72,6 +72,7 @@ export default {
           comment: payload.comment,
           username: payload.username,
           score: payload.score,
+          vote: 0,
           date: payload.date
         })
         .then((res) => {
