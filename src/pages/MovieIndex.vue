@@ -1,43 +1,64 @@
 <template>
   <div>
-    <div class="moviesSection">
-      <p>影院热映</p>
-      <ul class='hotMovies'>
-        <li v-for="movie in hotMovies">
-          <router-link :to="'/movie/subject/' + movie.id">
-            <img :src="movie.images.medium" />
-            <span>{{movie.title}}</span>
-          </router-link>
-        </li>
-      </ul>
+    <div v-if='!loading'>
+      <div class="moviesSection">
+        <p>影院热映<router-link to="/movie/in_theaters">更多</router-link></p>
+        <swiper :options='swiperOptions'>
+          <swiper-slide v-for='movie in hotMovies'>
+            <router-link :to="'/movie/subject/' + movie.id" class='movie_item'>
+              <img :src="movie.images.medium" />
+              <span>{{movie.title}}</span>
+              <div>
+                <rating-star :commitScore='(movie.rating.average)/2'></rating-star>
+                <div class='movie_item_rating'>{{movie.rating.average}}</div>
+              </div>
+            </router-link>
+          </swiper-slide>
+        </swiper>
+      </div>
+      <div class="moviesSection">
+        <p>即将上映<router-link to="/movie/coming_soon">更多</router-link></p>
+        <swiper :options='swiperOptions'>
+          <swiper-slide v-for='movie in newMovies'>
+            <router-link :to="'/movie/subject/' + movie.id" class='movie_item'>
+              <img :src="movie.images.medium" />
+              <span>{{movie.title}}</span>
+              <div v-if='movie.rating.average'>
+                <rating-star :commitScore='(movie.rating.average)/2'></rating-star>
+                <div class='movie_item_rating'>{{movie.rating.average}}</div>
+              </div>
+              <div v-else>
+                <span>暂无评分</span>
+              </div>
+            </router-link>
+          </swiper-slide>
+        </swiper>
+      </div>
+      <div class="moviesSection">
+        <p>top250<router-link to="/movie/top250">更多</router-link></p>
+        <swiper :options='swiperOptions'>
+          <swiper-slide v-for='movie in topMovies'>
+            <router-link :to="'/movie/subject/' + movie.id" class='movie_item'>
+              <img :src="movie.images.medium" />
+              <span>{{movie.title}}</span>
+              <div>
+                <rating-star :commitScore='(movie.rating.average)/2'></rating-star>
+                <div class='movie_item_rating'>{{movie.rating.average}}</div>
+              </div>
+            </router-link>
+          </swiper-slide>
+        </swiper>
+      </div>
     </div>
-    <div class="moviesSection">
-      <p>即将上映</p>
-      <ul class="newMovies">
-        <li v-for="movie in newMovies">
-          <router-link :to="'/movie/subject/' + movie.id">
-            <img :src="movie.images.medium" />
-            <span>{{movie.title}}</span>
-          </router-link>
-        </li>
-      </ul>
-    </div>
-    <div class="moviesSection">
-      <p>top250</p>
-      <ul class="topMovies">
-        <li v-for="movie in topMovies">
-          <router-link :to="'/movie/subject/' + movie.id">
-            <img :src="movie.images.medium" />
-            <span>{{movie.title}}</span>
-          </router-link>
-        </li>
-      </ul>
-    </div>
+    <loading v-if='loading'></loading>
   </div>
 </template>
 <script>
 import {mapState} from 'vuex'
 import SectionHeader from '../components/SectionHeader'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import ratingStar from '../components/ratingStar'
+import loading from '../components/loading'
 
 export default {
   name: 'movie',
@@ -62,7 +83,13 @@ export default {
           title: '北美票房榜',
           path: '/movie/us_box'
         }
-      ]
+      ],
+      swiperOptions: {
+        pagination: null,
+        slidesPerView: 4,
+        paginationClickable: true
+      },
+      loading: true
     }
   },
   computed: mapState({
@@ -72,27 +99,24 @@ export default {
   }),
   methods: {
     getMovie () {
-      this.$store.dispatch('getMovie')
+      this.$store.dispatch('getMovie').then(() => {
+        this.loading = false
+      })
     }
   },
   created () {
     this.getMovie()
   },
   components: {
-    SectionHeader
+    SectionHeader,
+    swiper,
+    swiperSlide,
+    ratingStar,
+    loading
   }
 }
 </script>
-<style scoped>
-  #indexWrapper ul li{
-    float:left;
-  }
-  div.moviesSection li{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width:100px;
-  }
+<style scoped lang='scss'>
   .hotMovies, .topMovies, .newMovies{
     overflow:hidden;
     font-size:14px;
@@ -101,7 +125,7 @@ export default {
     justify-content: space-between;
   }
   #indexWrapper a span{
-    width:80px;
+    width:100px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow:hidden;
@@ -113,9 +137,34 @@ export default {
   }
   .moviesSection{
     width:60%;
-    margin:0 auto;
+    margin:20px auto;
   }
   .moviesSection p{
-    margin:10px 0;
+    margin:10px 0 18px;
+    padding-bottom:10px;
+    border-bottom:1px solid #eaeaea;
+    a{
+      float:right;
+      color:#072;
+      font-size:14px;
+    }
+  }
+  .movie_item{
+    display:flex;
+    flex-direction:column;
+    align-items: flex-start;
+    font-size:12px;
+    span{
+      margin: 5px 0;
+    }
+    div{
+      margin:0;
+      width:100px;
+      display:flex;
+      .movie_item_rating{
+        width:25px;
+        color:#e09015;
+      }
+    }
   }
 </style>

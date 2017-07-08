@@ -65,7 +65,7 @@
     }
   }
 </script>
-<style scoped="" lang='scss'>
+<style scoped lang='scss'>
   #headerNav{
     display: flex;
     justify-content: space-between;

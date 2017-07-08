@@ -3,8 +3,8 @@
     <div class='commentWrapper'>
       <p><span>给个评价吧?</span><rating-star></rating-star></p>
       <div class=''>
-          <h3>写评价</h3>
-          <textarea name='comment' v-model="comment" rows='6'></textarea>
+          <h3>写评价<span>{{wordsLeft}}</span></h3>
+          <textarea name='comment' v-model="comment" rows='6' @keyup='updateWordsLeft'></textarea>
       </div>
       <div>
         <span @click='submitComment' class='commit'>发布</span>
@@ -13,7 +13,7 @@
   </modal>
 </template>
 <script>
-  import {getDateFormat} from '../util/baseUtil'
+  import {getDateFormat, cutStr} from '../util/baseUtil'
   import ratingStar from './ratingStar'
   import {mapState} from 'vuex'
 
@@ -22,7 +22,8 @@
     props: ['user_id', 'item_id', 'username'],
     data () {
       return {
-        comment: ''
+        comment: '',
+        wordsLeft: 140
       }
     },
     computed: mapState({
@@ -54,6 +55,14 @@
         }, (err) => {
           console.log(err)
         })
+      },
+      updateWordsLeft () {
+        let val = this.comment
+        let charlength = val.replace(/[^\x00-\xff]/g, '**').length
+        if (charlength / 2 > 140) {
+          this.comment = cutStr(val, 280)
+        }
+        this.wordsLeft = Math.ceil(140 - charlength / 2)
       }
     },
     components: {
@@ -77,6 +86,11 @@
     h3{
       font-size:16px;
       margin-bottom: 10px;
+      span{
+        float:right;
+        color:#333;
+        font-weight: normal;
+      }
     }
     textarea{
       box-sizing: border-box;

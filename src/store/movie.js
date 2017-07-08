@@ -36,38 +36,65 @@ export default {
   },
   actions: {
     getMovie ({commit}) {
-      axios.get('https://api.douban.com/v2/movie/in_theaters?count=8')
-      .then((res) => {
-        commit({
-          type: 'getMovie',
-          tag: 'in_theaters',
-          res: res.data.subjects
+      return new Promise((resolve, reject) => {
+        let url1 = 'https://api.douban.com/v2/movie/in_theaters?count=10'
+        let url2 = 'https://api.douban.com/v2/movie/coming_soon?count=10'
+        let url3 = 'https://api.douban.com/v2/movie/top250?count=10'
+        axios.all([axios.get(url1), axios.get(url2), axios.get(url3)])
+        .then(axios.spread((res1, res2, res3) => {
+          commit({
+            type: 'getMovie',
+            tag: 'in_theaters',
+            res: res1.data.subjects
+          })
+          commit({
+            type: 'getMovie',
+            tag: 'coming_soon',
+            res: res2.data.subjects
+          })
+          commit({
+            type: 'getMovie',
+            tag: 'top250',
+            res: res3.data.subjects
+          })
+          resolve()
+        }))
+        .catch((err) => {
+          console.log(err)
         })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      axios.get('https://api.douban.com/v2/movie/coming_soon?count=8')
-      .then((res) => {
-        commit({
-          type: 'getMovie',
-          tag: 'coming_soon',
-          res: res.data.subjects
-        })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      axios.get('https://api.douban.com/v2/movie/top250?count=8')
-      .then((res) => {
-        commit({
-          type: 'getMovie',
-          tag: 'top250',
-          res: res.data.subjects
-        })
-      })
-      .catch((err) => {
-        console.log(err)
+        // axios.get('https://api.douban.com/v2/movie/in_theaters?count=10')
+        // .then((res) => {
+        //   commit({
+        //     type: 'getMovie',
+        //     tag: 'in_theaters',
+        //     res: res.data.subjects
+        //   })
+        // })
+        // .catch((err) => {
+        //   console.log(err)
+        // })
+        // axios.get('https://api.douban.com/v2/movie/coming_soon?count=10')
+        // .then((res) => {
+        //   commit({
+        //     type: 'getMovie',
+        //     tag: 'coming_soon',
+        //     res: res.data.subjects
+        //   })
+        // })
+        // .catch((err) => {
+        //   console.log(err)
+        // })
+        // axios.get('https://api.douban.com/v2/movie/top250?count=10')
+        // .then((res) => {
+        //   commit({
+        //     type: 'getMovie',
+        //     tag: 'top250',
+        //     res: res.data.subjects
+        //   })
+        // })
+        // .catch((err) => {
+        //   console.log(err)
+        // })
       })
     },
     getMovieList ({commit}, payload) {

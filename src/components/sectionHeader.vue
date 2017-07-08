@@ -26,7 +26,7 @@
     }
   }
 </script>
-<style>
+<style scoped>
   #section_header_wrapper{
     background: #f0f3f5;
   }
