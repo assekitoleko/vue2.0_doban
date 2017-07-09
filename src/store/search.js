@@ -12,7 +12,7 @@ export default {
   actions: {
     searchMovie ({commit}, payload) {
       return new Promise((resolve, reject) => {
-        let url = 'https://api.douban.com/v2/movie/search?q=' + payload.content
+        let url = '/doubanapi/v2/movie/search?q=' + payload.content
         axios.get(url)
         .then((res) => {
           commit({

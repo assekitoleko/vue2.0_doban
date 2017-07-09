@@ -12,7 +12,7 @@ export default {
   actions: {
     fetchCelebrity ({commit}, payload) {
       return new Promise((resolve, reject) => {
-        let url = 'https://api.douban.com/v2/movie/celebrity/' + payload.id
+        let url = '/doubanapi/v2/movie/celebrity/' + payload.id
         axios.get(url)
         .then((res) => {
           console.log(res)

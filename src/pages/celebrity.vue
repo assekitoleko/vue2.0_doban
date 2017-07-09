@@ -1,7 +1,7 @@
 <template>
   <div id="celebrity">
     <loading v-if='loading'></loading>
-    <div class='celebrityWrapper main'>
+    <div class='celebrityWrapper main' v-else>
       <p class="celebrity_title">{{celebrity.name}} {{celebrity.name_en}}</p>
       <div class="celebrity_info">
         <div>
@@ -18,7 +18,7 @@
           </p>
         </div>
       </div>
-      <div>
+      <div class='popular_works'>
         <p class="celebrity_works">最受欢迎的5部作品 · · · · · ·</p>
         <ul>
           <li v-for="movie in celebrity.works">
@@ -78,6 +78,10 @@
     color:#494949;
     font-weight: bold;
     margin:$margin;
+  }
+  div.popular_works{
+    margin-bottom:20px;
+    overflow:hidden;
   }
   ul li{
     float:left;

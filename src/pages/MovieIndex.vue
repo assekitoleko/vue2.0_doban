@@ -4,7 +4,7 @@
       <div class="moviesSection">
         <p>影院热映<router-link to="/movie/in_theaters">更多</router-link></p>
         <swiper :options='swiperOptions'>
-          <swiper-slide v-for='movie in hotMovies'>
+          <swiper-slide v-for='movie in hotMovies' :key='movie.id'>
             <router-link :to="'/movie/subject/' + movie.id" class='movie_item'>
               <img :src="movie.images.medium" />
               <span>{{movie.title}}</span>
@@ -19,7 +19,7 @@
       <div class="moviesSection">
         <p>即将上映<router-link to="/movie/coming_soon">更多</router-link></p>
         <swiper :options='swiperOptions'>
-          <swiper-slide v-for='movie in newMovies'>
+          <swiper-slide v-for='movie in newMovies' :key='movie.id'>
             <router-link :to="'/movie/subject/' + movie.id" class='movie_item'>
               <img :src="movie.images.medium" />
               <span>{{movie.title}}</span>
@@ -37,7 +37,7 @@
       <div class="moviesSection">
         <p>top250<router-link to="/movie/top250">更多</router-link></p>
         <swiper :options='swiperOptions'>
-          <swiper-slide v-for='movie in topMovies'>
+          <swiper-slide v-for='movie in topMovies' :key='movie.id'>
             <router-link :to="'/movie/subject/' + movie.id" class='movie_item'>
               <img :src="movie.images.medium" />
               <span>{{movie.title}}</span>

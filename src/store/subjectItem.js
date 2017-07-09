@@ -35,7 +35,7 @@ export default {
   actions: {
     getSingleSubject ({commit}, payload) {
       return new Promise((resolve, reject) => {
-        let url = 'https://api.douban.com/v2/' + payload.classify + '/subject/' + payload.id
+        let url = '/doubanapi/v2/' + payload.classify + '/subject/' + payload.id
         axios.all([axios.get(url), axios.get(`/api/comments?item_id=${payload.id}`)])
         .then(axios.spread((res1, res2) => {
           commit({

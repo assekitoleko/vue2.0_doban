@@ -37,9 +37,9 @@ export default {
   actions: {
     getMovie ({commit}) {
       return new Promise((resolve, reject) => {
-        let url1 = 'https://api.douban.com/v2/movie/in_theaters?count=10'
-        let url2 = 'https://api.douban.com/v2/movie/coming_soon?count=10'
-        let url3 = 'https://api.douban.com/v2/movie/top250?count=10'
+        let url1 = '/doubanapi/v2/movie/in_theaters?count=10'
+        let url2 = '/doubanapi/v2/movie/coming_soon?count=10'
+        let url3 = '/doubanapi/v2/movie/top250?count=10'
         axios.all([axios.get(url1), axios.get(url2), axios.get(url3)])
         .then(axios.spread((res1, res2, res3) => {
           commit({
@@ -62,44 +62,11 @@ export default {
         .catch((err) => {
           console.log(err)
         })
-        // axios.get('https://api.douban.com/v2/movie/in_theaters?count=10')
-        // .then((res) => {
-        //   commit({
-        //     type: 'getMovie',
-        //     tag: 'in_theaters',
-        //     res: res.data.subjects
-        //   })
-        // })
-        // .catch((err) => {
-        //   console.log(err)
-        // })
-        // axios.get('https://api.douban.com/v2/movie/coming_soon?count=10')
-        // .then((res) => {
-        //   commit({
-        //     type: 'getMovie',
-        //     tag: 'coming_soon',
-        //     res: res.data.subjects
-        //   })
-        // })
-        // .catch((err) => {
-        //   console.log(err)
-        // })
-        // axios.get('https://api.douban.com/v2/movie/top250?count=10')
-        // .then((res) => {
-        //   commit({
-        //     type: 'getMovie',
-        //     tag: 'top250',
-        //     res: res.data.subjects
-        //   })
-        // })
-        // .catch((err) => {
-        //   console.log(err)
-        // })
       })
     },
     getMovieList ({commit}, payload) {
       return new Promise((resolve, reject) => {
-        let url = 'https://api.douban.com/v2/movie/' + payload.sort + '?count=20'
+        let url = '/doubanapi/v2/movie/' + payload.sort + '?count=20'
         axios.get(url)
         .then((res) => {
           console.log(res)
@@ -116,7 +83,7 @@ export default {
       })
     },
     loadMore ({commit, state}, payload) {
-      axios.get('https://api.douban.com/v2/movie/' + payload + '?count=20&start=' + state[payload].length)
+      axios.get('/doubanapi/v2/movie/' + payload + '?count=20&start=' + state[payload].length)
       .then((res) => {
         if (res.data.subjects.length === 0) {
           commit({
