@@ -97,6 +97,19 @@ export default {
       .catch((err) => {
         console.log(err)
       })
+    },
+    votePost ({commit}, payload) {
+      console.log(payload)
+      axios.patch(`/api/comments/${payload.post_id}`, {
+        vote: payload.vote
+      })
+      .then((res) => {
+        console.log(res)
+        alert('点赞成功')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
   }
 }

@@ -52,7 +52,7 @@
                 <rating-star :commitScore='post.score'></rating-star>
                 <span class='post_time'>{{post.date}}</span>
               </p>
-              <span class='post_vote'>{{post.vote}} <span>有用</span></span>
+              <span class='post_vote'>{{post.vote}} <span @click='votePost(post.id, post.vote)'>有用</span></span>
             </div>
             <div>{{post.comment}}</div>
           </div>
@@ -113,6 +113,26 @@ export default {
         type: 'getNewComment',
         item_id: this.subject.id
       })
+    },
+    votePost (postId, vote) {
+      if (this.user_id === '') {
+        this.$store.commit('getuser')
+      }
+      if (this.user_id) {
+        let isVoted = localStorage.getItem(`${postId}-${this.user_id}`)
+        if (isVoted) {
+          alert('您已为此评论投过票')
+          return
+        } else {
+          this.$store.dispatch({
+            type: 'votePost',
+            post_id: postId,
+            vote: vote + 1
+          })
+        }
+      } else {
+        this.$route.push({path: '/login', query: {redirect: this.$route.fullPath}})
+      }
     }
   },
   created () {

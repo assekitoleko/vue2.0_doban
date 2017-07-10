@@ -19,7 +19,6 @@ export default {
       localStorage.removeItem('username')
     },
     getuser (state) {
-      console.log('get user')
       state.user_id = localStorage.getItem('user_id')
       state.username = localStorage.getItem('username')
     }
