@@ -4,7 +4,11 @@
       <div class="movie_title">{{subject.title}} {{subject.original_title}} <span>({{subject.year}})</span></div>
       <div class="subject_rating">
         <rating-star :commitScore='(subject.rating.average)/2'></rating-star>
-        <span>{{subject.ratings_count}}人评价</span>
+        <template v-if='subject.rating.average'>
+          <span>{{subject.rating.average}}</span>
+          <span>{{subject.ratings_count}}人评价</span>
+        </template>
+        <span v-else>尚未上映</span>
       </div>
       <div class="movie_content">
         <div>
@@ -128,6 +132,9 @@ export default {
             type: 'votePost',
             post_id: postId,
             vote: vote + 1
+          }).then(() => {
+            localStorage.setItem(`${postId}-${this.user_id}`, 1)
+            this.getNewComment()
           })
         }
       } else {

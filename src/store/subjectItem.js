@@ -99,16 +99,17 @@ export default {
       })
     },
     votePost ({commit}, payload) {
-      console.log(payload)
-      axios.patch(`/api/comments/${payload.post_id}`, {
-        vote: payload.vote
-      })
-      .then((res) => {
-        console.log(res)
-        alert('点赞成功')
-      })
-      .catch((err) => {
-        console.log(err)
+      return new Promise((resolve, reject) => {
+        console.log(payload)
+        axios.patch(`/api/comments/${payload.post_id}`, {
+          vote: payload.vote
+        })
+        .then(() => {
+          resolve()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
       })
     }
   }

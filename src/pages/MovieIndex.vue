@@ -3,51 +3,15 @@
     <div v-if='!loading'>
       <div class="moviesSection">
         <p>影院热映<router-link to="/movie/in_theaters">更多</router-link></p>
-        <swiper :options='swiperOptions'>
-          <swiper-slide v-for='movie in hotMovies' :key='movie.id'>
-            <router-link :to="'/movie/subject/' + movie.id" class='movie_item'>
-              <img :src="movie.images.medium" />
-              <span>{{movie.title}}</span>
-              <div>
-                <rating-star :commitScore='(movie.rating.average)/2'></rating-star>
-                <div class='movie_item_rating'>{{movie.rating.average}}</div>
-              </div>
-            </router-link>
-          </swiper-slide>
-        </swiper>
+        <swiperItem :options='swiperOptions' :swiperList='hotMovies'></swiperItem>
       </div>
       <div class="moviesSection">
         <p>即将上映<router-link to="/movie/coming_soon">更多</router-link></p>
-        <swiper :options='swiperOptions'>
-          <swiper-slide v-for='movie in newMovies' :key='movie.id'>
-            <router-link :to="'/movie/subject/' + movie.id" class='movie_item'>
-              <img :src="movie.images.medium" />
-              <span>{{movie.title}}</span>
-              <div v-if='movie.rating.average'>
-                <rating-star :commitScore='(movie.rating.average)/2'></rating-star>
-                <div class='movie_item_rating'>{{movie.rating.average}}</div>
-              </div>
-              <div v-else>
-                <span>暂无评分</span>
-              </div>
-            </router-link>
-          </swiper-slide>
-        </swiper>
+        <swiperItem :options='swiperOptions' :swiperList='newMovies'></swiperItem>
       </div>
       <div class="moviesSection">
         <p>top250<router-link to="/movie/top250">更多</router-link></p>
-        <swiper :options='swiperOptions'>
-          <swiper-slide v-for='movie in topMovies' :key='movie.id'>
-            <router-link :to="'/movie/subject/' + movie.id" class='movie_item'>
-              <img :src="movie.images.medium" />
-              <span>{{movie.title}}</span>
-              <div>
-                <rating-star :commitScore='(movie.rating.average)/2'></rating-star>
-                <div class='movie_item_rating'>{{movie.rating.average}}</div>
-              </div>
-            </router-link>
-          </swiper-slide>
-        </swiper>
+        <swiperItem :options='swiperOptions' :swiperList='topMovies'></swiperItem>
       </div>
     </div>
     <loading v-if='loading'></loading>
@@ -56,9 +20,10 @@
 <script>
 import {mapState} from 'vuex'
 import SectionHeader from '../components/SectionHeader'
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
+// import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import ratingStar from '../components/ratingStar'
 import loading from '../components/loading'
+import swiperItem from '../components/swiperItem'
 
 export default {
   name: 'movie',
@@ -109,8 +74,8 @@ export default {
   },
   components: {
     SectionHeader,
-    swiper,
-    swiperSlide,
+    swiperItem,
+    // swiperSlide,
     ratingStar,
     loading
   }
@@ -124,17 +89,6 @@ export default {
     display:flex;
     justify-content: space-between;
   }
-  #indexWrapper a span{
-    width:100px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow:hidden;
-    color:#333;
-    display:inline-block;
-  }
-  #indexWrapper a{
-    text-align:center;
-  }
   .moviesSection{
     width:60%;
     margin:20px auto;
@@ -147,24 +101,6 @@ export default {
       float:right;
       color:#072;
       font-size:14px;
-    }
-  }
-  .movie_item{
-    display:flex;
-    flex-direction:column;
-    align-items: flex-start;
-    font-size:12px;
-    span{
-      margin: 5px 0;
-    }
-    div{
-      margin:0;
-      width:100px;
-      display:flex;
-      .movie_item_rating{
-        width:25px;
-        color:#e09015;
-      }
     }
   }
 </style>
