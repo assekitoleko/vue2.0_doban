@@ -3,8 +3,8 @@
     <div class="subjectWrapper" v-if="!showLoading">
       <div class="movie_title">{{subject.title}} {{subject.original_title}} <span>({{subject.year}})</span></div>
       <div class="subject_rating">
-        <rating-star :commitScore='(subject.rating.average)/2'></rating-star>
         <template v-if='subject.rating.average'>
+          <rating-star :commitScore='(subject.rating.average)/2'></rating-star>
           <span>{{subject.rating.average}}</span>
           <span>{{subject.ratings_count}}人评价</span>
         </template>
@@ -41,8 +41,11 @@
       </div>
       <div class="movie_desc">
         <span style="line-height:30px;">{{subject.title}}的剧情简介.......</span>
-        <p>
+        <p v-if='(sub_summary === subject.summary || showAllSummary)'>
           {{subject.summary}}
+        </p>
+        <p v-else>
+          {{sub_summary}}<span @click='showSummary'>(展开全部)</span>
         </p>
       </div>
       <div class='postsWrapper' v-show='posts.length'>
@@ -78,20 +81,24 @@ export default {
   name: 'SubjectItem',
   data () {
     return {
-      showLoading: true
+      showLoading: true,
+      showAllSummary: false
     }
   },
-  computed: mapState({
-    subject: state => state.SubjectItem.subject,
-    directors: state => state.SubjectItem.directors,
-    casts: state => state.SubjectItem.casts,
-    genres: state => state.SubjectItem.genres,
-    countries: state => state.SubjectItem.countries,
-    aka: state => state.SubjectItem.aka,
-    user_id: state => state.login.user_id,
-    username: state => state.login.username,
-    posts: state => state.SubjectItem.posts
-  }),
+  computed: {
+    ...mapState({
+      subject: state => state.SubjectItem.subject,
+      directors: state => state.SubjectItem.directors,
+      casts: state => state.SubjectItem.casts,
+      genres: state => state.SubjectItem.genres,
+      countries: state => state.SubjectItem.countries,
+      aka: state => state.SubjectItem.aka,
+      user_id: state => state.login.user_id,
+      username: state => state.login.username,
+      posts: state => state.SubjectItem.posts,
+      sub_summary: state => state.SubjectItem.subject.summary.substring(0, 200)
+    })
+  },
   methods: {
     getSingleSubject (classify, id) {
       this.$store.dispatch({
@@ -140,6 +147,9 @@ export default {
       } else {
         this.$route.push({path: '/login', query: {redirect: this.$route.fullPath}})
       }
+    },
+    showSummary () {
+      this.showAllSummary = true
     }
   },
   created () {
@@ -192,6 +202,11 @@ export default {
     font-size: 12px;
     line-height: 1.72;
     color: #111;
+    span{
+      color:#37a;
+      margin-left:5px;
+      cursor:pointer;
+    }
   }
   .editComment{
     padding: 6px 14px;
