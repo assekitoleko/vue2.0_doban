@@ -1,9 +1,9 @@
  <template>
-  <div id=section_header_wrapper>
+  <div id='section_header_wrapper'>
     <div class="section_header_title main">
       <img :src="icon" />
-      <div class="inp"><input type="text" placeholder="电影 影人" v-model="content" /></div>
-      <router-link :to="'/movie/search/' + content" class="search_button"></router-link>
+      <div class="inp"><input type="text" :placeholder="searchPlaceholder" v-model="content" /></div>
+      <router-link :to="searchUrl + content" class="search_button"></router-link>
     </div>
     <div class="section_divider"></div>
     <div class="section_header_itemList main">
@@ -18,7 +18,7 @@
 <script>
   export default {
     name: 'SectionHeader',
-    props: ['icon', 'itemList', 'searchUrl'],
+    props: ['icon', 'itemList', 'searchUrl', 'searchPlaceholder'],
     data () {
       return {
         content: ''
@@ -26,10 +26,7 @@
     }
   }
 </script>
-<style scoped>
-  #section_header_wrapper{
-    background: #f0f3f5;
-  }
+<style scoped lang='scss'>
   .search_button{
     display: inline-block;
     width: 34px;
@@ -64,7 +61,7 @@
     width: 300px;
   }
   .section_header_title{
-    background: #f0f3f5;
+    // background: #f0f3f5;
     display: flex;
     justify-content: flex-start;
     padding: 20px 0;

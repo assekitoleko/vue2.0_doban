@@ -4,7 +4,7 @@
       <p><span>给个评价吧?</span><rating-star></rating-star></p>
       <div class=''>
           <h3>写评价<span>{{wordsLeft}}</span></h3>
-          <textarea name='comment' v-model="comment" rows='6' @keyup='updateWordsLeft'></textarea>
+          <textarea name='comment' v-model.trim="comment" rows='6' @keyup='updateWordsLeft'></textarea>
       </div>
       <div>
         <span @click='submitComment' class='commit'>发布</span>
@@ -31,7 +31,7 @@
     }),
     methods: {
       submitComment () {
-        if (this.comment.trim() === '') {
+        if (this.comment === '') {
           alert('评论内容为空')
           return
         }

@@ -1,6 +1,6 @@
 <template>
   <div id="indexWrapper">
-    <sectionHeader :icon="icon" :itemList="itemList" :searchUrl="searchUrl"></sectionHeader>
+    <sectionHeader :icon="icon" :itemList="itemList" :searchUrl="searchUrl" :searchPlaceholder='searchPlaceholder' :style="{backgroundColor:'#f0f3f5'}"></sectionHeader>
     <router-view></router-view>
   </div>
 </template>
@@ -12,7 +12,7 @@
     data () {
       return {
         icon: require('../assets/doban_movie_icon.png'),
-        searchUrl: '/v2/movie/search?q=',
+        searchUrl: '/movie/search/',
         itemList: [
           {
             title: '正在热映',
@@ -30,7 +30,8 @@
             title: '北美票房榜',
             path: '/movie/us_box'
           }
-        ]
+        ],
+        searchPlaceholder: '电影 影人'
       }
     },
     components: {

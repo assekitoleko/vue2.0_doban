@@ -8,13 +8,7 @@
         <router-link to="/movie" class="movie_option">电影</router-link>
       </li>
       <li>
-        <router-link to="/music" class="music_option">音乐</router-link>
-      </li>
-      <li>
         <router-link to="/book" class="book_option">读书</router-link>
-      </li>
-      <li>
-        <router-link to="/group" class="group_option">小组</router-link>
       </li>
       <li @mouseenter="enter" @mouseleave="leave">
         <router-link :to='loginInfo.route' class="login">{{loginInfo.username}}</router-link>

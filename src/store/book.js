@@ -2,40 +2,44 @@ import axios from 'axios'
 
 export default {
   state: {
-    hotMovies: [],
-    newMovies: [],
-    topMovies: []
+    loveBooks: [],
+    scienceFictions: []
   },
   mutations: {
-    getMovie (state, payload) {
+    getIndexBooks (state, payload) {
       switch (payload.tag) {
-        case 'hotMovies':
-          state.hotMovies = payload.res
+        case '科幻':
+          state.scienceFictions = payload.data
           break
-        case 'newMovies':
-          state.newMovies = payload.res
+        case '爱情':
+          state.loveBooks = payload.data
           break
-        case 'topMovies':
-          state.topMovies = payload.res
-          break
-        default:
-          state.hotMovies = payload.res
       }
     }
   },
   actions: {
-    getMovie ({commit}) {
-      axios.get('/doubanapi/v2/movie/in_theaters?count=8')
-      .then((res) => {
-        console.log(res)
-        commit({
-          type: 'getMovie',
-          tag: 'hotMovies',
-          res: res.body.subjects
+    getIndexBooks ({commit}) {
+      return new Promise((resolve, reject) => {
+        let url1 = "/doubanapi/v2/book/search?q='科幻'&count=40"
+        let url2 = "/doubanapi/v2/book/search?q='爱情'&count=10"
+        axios.all([axios.get(url1), axios.get(url2)])
+        .then(axios.spread((res1, res2) => {
+          // console.log(res1, '::::', res2)
+          commit({
+            type: 'getIndexBooks',
+            tag: '科幻',
+            data: res1.data.books
+          })
+          commit({
+            type: 'getIndexBooks',
+            tag: '爱情',
+            data: res2.data.books
+          })
+          resolve()
+        }))
+        .catch((err) => {
+          console.log(err)
         })
-      })
-      .catch((err) => {
-        console.log(err)
       })
     }
   }

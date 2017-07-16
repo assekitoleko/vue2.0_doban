@@ -2,9 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '../pages/Index'
 import Movie from '../pages/Movie'
-import Music from '../pages/Music'
 import Book from '../pages/Book'
-import Group from '../pages/Group'
+import BookIndex from '../pages/BookIndex'
 import SubjectItem from '../pages/SubjectItem'
 import Login from '../pages/Login'
 import SubjectList from '../pages/SubjectList'
@@ -51,22 +50,21 @@ export default new Router({
       ]
     },
     {
-      path: '/music',
-      name: 'Music',
-      component: Music
-    },
-    {
       path: '/book',
       name: 'Book',
       component: Book,
-      meta: {
-        requireAuth: true
-      }
-    },
-    {
-      path: '/group',
-      name: 'Group',
-      component: Group
+      children: [
+        {
+          path: '/search/:content',
+          name: 'SubjectList',
+          component: SubjectList
+        },
+        {
+          path: '',
+          name: 'BookIndex',
+          component: BookIndex
+        }
+      ]
     },
     {
       path: '/:classify/subject/:id',
