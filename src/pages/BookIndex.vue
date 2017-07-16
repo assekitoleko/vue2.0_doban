@@ -1,7 +1,7 @@
 <template>
   <div id='bookIndexWrapper'>
     <loading v-show='loading'></loading>
-    <div class='main'>
+    <div class='main' v-if='!loading'>
       <div class='scienceFictions'>
         <h3>科幻小说</h3>
         <swiper :options='swiperOptions'>

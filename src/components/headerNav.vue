@@ -12,7 +12,7 @@
       </li>
       <li @mouseenter="enter" @mouseleave="leave">
         <router-link :to='loginInfo.route' class="login">{{loginInfo.username}}</router-link>
-        <ul class='account_actions' ref='account_actions'>
+        <ul class='account_actions' :style='loginMenuStyle'>
           <li @click='logout' id='logout'>退出</li>
         </ul>
       </li>
@@ -23,6 +23,11 @@
   // import {mapState} from 'vuex'
   export default {
     name: 'headerNav',
+    data () {
+      return {
+        showLoginMenu: false
+      }
+    },
     computed: {
       logedIn () {
         if (!this.$store.state.login.user_id) {
@@ -35,16 +40,21 @@
           username: this.logedIn ? this.$store.state.login.username : '登录',
           route: this.logedIn ? `/user/${this.$store.state.login.user_id}` : '/login'
         }
+      },
+      loginMenuStyle () {
+        return {
+          display: this.showLoginMenu ? 'block' : 'none'
+        }
       }
     },
     methods: {
       enter () {
         if (this.logedIn) {
-          this.$refs.account_actions.style.display = 'block'
+          this.showLoginMenu = true
         }
       },
       leave () {
-        this.$refs.account_actions.style.display = 'none'
+        this.showLoginMenu = false
       },
       logout () {
         this.$store.commit('logout')
