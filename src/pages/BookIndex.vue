@@ -14,6 +14,25 @@
           </swiper-slide>
         </swiper>
       </div>
+      <div class='loveBooks'>
+        <h3>爱情小说</h3>
+        <div class='loveBooksWrapper'>
+          <div v-for='love of loveBooks' :key='love.id' class='love_book'>
+            <div class='love_info'>
+              <div class='love_cover'><img :src='love.images.small' /></div>
+              <div>
+                <p>{{love.title}}</p>
+                <p><rating-star :commitScore='(love.rating.average/2)'></rating-star>{{love.rating.average}}</p>
+                <p>作者: {{love.author.join(',')}}</p>
+                <p>{{love.publisher}}</p>
+              </div>
+            </div>
+            <div class='love_summary'>
+              {{love.summary}}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -21,10 +40,11 @@
   import loading from '../components/loading'
   import {mapState} from 'vuex'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import ratingStar from '../components/ratingStar'
 
   export default {
     name: 'BookIndex',
-    components: {loading, swiper, swiperSlide},
+    components: {loading, swiper, swiperSlide, ratingStar},
     data () {
       return {
         loading: true,
@@ -52,16 +72,16 @@
   }
 </script>
 <style scoped lang='scss'>
+  h3{
+    border-bottom:1px solid #ddd;
+    margin:25px 0;
+    font-size:18px;
+    font-weight:bold;
+    padding-bottom:5px;
+  }
   .scienceFictions{
     margin-top:30px;
     width:650px;
-    h3{
-      border-bottom:1px solid #ddd;
-      margin:25px 0;
-      font-size:18px;
-      font-weight:bold;
-      padding-bottom:5px;
-    }
     .fiction_item{
       display:flex;
       flex-direction: column;
@@ -78,6 +98,40 @@
       .fiction_item_title{
         color:#3377aa
       }
+    }
+  }
+  .loveBooks{
+    width:650px;
+    font-size:12px;
+    .loveBooksWrapper{
+      display:flex;
+      flex-wrap: wrap;
+    }
+    .love_book{
+      display:flex;
+      flex-direction: column;
+      width:300px;
+      margin-bottom:15px;
+      padding-right:10px;
+    }
+    .love_book:nth-of-type(odd){
+      margin-right:20px;
+    }
+    .love_info{
+      display:flex;
+      .love_cover{
+        margin-right:15px;
+      }
+    }
+    .love_summary{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      display:-webkit-box;
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:2;
+      color:#666;
+      margin-top:10px;
+      line-height:20px;
     }
   }
 </style>
