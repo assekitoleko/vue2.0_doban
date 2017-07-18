@@ -3,8 +3,8 @@
     <loading v-show='loading'></loading>
     <div class='main' v-if='!loading'>
       <div class='scienceFictions'>
-        <h3>科幻小说</h3>
-        <swiper :options='swiperOptions'>
+        <h3>科幻小说<span @click='checknextpic'>some move</span></h3>
+        <swiper :options='swiperOptions' ref='mySwiper'>
           <swiper-slide v-for='fiction of scienceFictions' :key='fiction.id'>
             <div class='fiction_item'>
               <img :src='fiction.images.medium' />
@@ -22,7 +22,9 @@
               <div class='love_cover'><img :src='love.images.small' /></div>
               <div>
                 <p>{{love.title}}</p>
-                <p><rating-star :commitScore='(love.rating.average/2)'></rating-star>{{love.rating.average}}</p>
+                <p class='love_rating'>
+                  <rating-star :commitScore='(love.rating.average/2)'></rating-star><span>{{love.rating.average}}</span>
+                </p>
                 <p>作者: {{love.author.join(',')}}</p>
                 <p>{{love.publisher}}</p>
               </div>
@@ -52,15 +54,24 @@
           pagination: null,
           slidesPerView: 5,
           slidesPerColumn: 2,
-          spaceBetween: 20
+          spaceBetween: 20,
+          notNextTick: true
         }
+      }
+    },
+    methods: {
+      checknextpic () {
+        console.log(this.swiper)
       }
     },
     computed: {
       ...mapState({
         loveBooks: state => state.book.loveBooks,
         scienceFictions: state => state.book.scienceFictions
-      })
+      }),
+      swiper () {
+        return this.$refs.mySwiper.swiper
+      }
     },
     created () {
       this.$store.dispatch({
@@ -110,9 +121,9 @@
     .love_book{
       display:flex;
       flex-direction: column;
-      width:300px;
+      width:290px;
       margin-bottom:15px;
-      padding-right:10px;
+      padding-right:20px;
     }
     .love_book:nth-of-type(odd){
       margin-right:20px;
@@ -120,7 +131,22 @@
     .love_info{
       display:flex;
       .love_cover{
-        margin-right:15px;
+        margin-right:20px;
+      }
+      p{
+        line-height:20px;
+      }
+      p:first-child{
+        font-size: 14px;
+        color: #37a
+      }
+      p.love_rating{
+        display:flex;
+        align-items: center;
+        span{
+          color: #e09015;
+          margin-left:10px;
+        }
       }
     }
     .love_summary{
