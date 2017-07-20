@@ -7,6 +7,9 @@ export default {
   mutations: {
     searchMovie (state, payload) {
       state.searchResult = payload.res
+    },
+    searchBooks (state, payload) {
+      state.searchResult = payload.res
     }
   },
   actions: {
@@ -23,6 +26,23 @@ export default {
         })
         .catch((err) => {
           reject(err)
+        })
+      })
+    },
+    searchBooks ({commit}, payload) {
+      return new Promise((resolve, reject) => {
+        let url = '/doubanapi/v2/book/search?q=' + payload.content
+        axios.get(url)
+        .then((res) => {
+          console.log(res)
+          commit({
+            type: 'searchBooks',
+            res: res.data.books
+          })
+          resolve()
+        })
+        .catch((err) => {
+          console.log(err)
         })
       })
     }

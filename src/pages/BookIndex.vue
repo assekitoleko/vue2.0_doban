@@ -3,7 +3,10 @@
     <loading v-show='loading'></loading>
     <div class='main' v-if='!loading'>
       <div class='scienceFictions'>
-        <h3>科幻小说<span @click='checknextpic'>some move</span></h3>
+        <h3>科幻小说
+          <span @click='swiper.slideNext()' class='slideTurn'>›</span>
+          <span @click='swiper.slidePrev()' class='slideTurn'>‹</span>
+        </h3>
         <swiper :options='swiperOptions' ref='mySwiper'>
           <swiper-slide v-for='fiction of scienceFictions' :key='fiction.id'>
             <div class='fiction_item'>
@@ -12,6 +15,7 @@
               <span class='fiction_item_author'>{{fiction.author.join(',')}}</span>
             </div>
           </swiper-slide>
+          <!-- <div class="swiper-pagination" slot="pagination"></div> -->
         </swiper>
       </div>
       <div class='loveBooks'>
@@ -56,13 +60,11 @@
           slidesPerColumn: 2,
           spaceBetween: 20,
           notNextTick: true
+          // paginationClickable: true
         }
       }
     },
     methods: {
-      checknextpic () {
-        console.log(this.swiper)
-      }
     },
     computed: {
       ...mapState({
@@ -89,6 +91,23 @@
     font-size:18px;
     font-weight:bold;
     padding-bottom:5px;
+    span{
+      background-color: #9b9a8e;
+      width:18px;
+      height:18px;
+      border-radius:9px;
+      font-size:16px;
+      color:#fff;
+      display:inline-block;
+      text-align: center;
+      line-height:16px;
+      cursor: pointer;
+      float:right;
+      margin-left:10px;
+    }
+    span:hover{
+      opacity: 0.8;
+    }
   }
   .scienceFictions{
     margin-top:30px;

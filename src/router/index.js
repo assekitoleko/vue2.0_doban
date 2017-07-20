@@ -10,6 +10,7 @@ import SubjectList from '../pages/SubjectList'
 import MovieIndex from '../pages/MovieIndex'
 import Celebrity from '../pages/Celebrity'
 import User from '../pages/User'
+import BookItemList from '../pages/BookItemList'
 // import store from '../store/index'
 
 Vue.use(Router)
@@ -55,9 +56,9 @@ export default new Router({
       component: Book,
       children: [
         {
-          path: '/search/:content',
-          name: 'SubjectList',
-          component: SubjectList
+          path: 'search/:content',
+          name: 'BookItemList',
+          component: BookItemList
         },
         {
           path: '',
