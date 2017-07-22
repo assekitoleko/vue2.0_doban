@@ -1,12 +1,18 @@
 <template>
   <div id='bookList'>
     <loading v-show='loading'></loading>
-    <div class='booksWrapper'>
-      <div v-for='book in booksList' :key='book.id'>
+    <div class='booksWrapper main'>
+      <div v-for='book in booksList' :key='book.id' class='book_item'>
         <div><img :src='book.images.medium' /></div>
         <div>
-          <p>{{book.title}}</p>
-          <p>{{book.author.join(',')}}/{{book.publisher}}/{{book.pubdate}}/{{book.price}}</p>
+          <p class='book_title'>{{book.title}}</p>
+          <p>{{book.author.join(',')}} / {{book.publisher}} / {{book.pubdate}} / {{book.price}}</p>
+          <p class='book_rating'>
+            <rating-star :commitScore='(book.rating.average)/2'></rating-star>
+            <span class='book_rating_score'>{{book.rating.average}}</span>
+            <span>({{book.rating.numRaters}}人评价)</span>
+          </p>
+          <p class="book_summary">{{book.summary}}</p>
         </div>
       </div>
     </div>
@@ -15,6 +21,7 @@
 <script>
   import loading from '../components/loading'
   import {mapState} from 'vuex'
+  import ratingStar from '../components/ratingStar'
 
   export default {
     name: 'BookItemList',
@@ -24,7 +31,8 @@
       }
     },
     components: {
-      loading
+      loading,
+      ratingStar
     },
     methods: {
       searchBooks () {
@@ -47,5 +55,34 @@
   }
 </script>
 <style scoped lang='scss'>
-
+  .book_item{
+    display:flex;
+    font-size:12px;
+    color: #666;
+    margin: 15px 0;
+    p{
+      line-height:24px;
+      margin-left:10px;
+    }
+    p.book_title{
+      color:#37a;
+    }
+    p.book_rating{
+      display:flex;
+      align-items:center;
+      span{
+        margin-left:10px;
+      }
+      span.book_rating_score{
+        color:#e09015
+      }
+    }
+    p.book_summary{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      display:-webkit-box;
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:3;
+    }
+  }
 </style>
