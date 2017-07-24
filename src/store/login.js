@@ -3,7 +3,10 @@ import axios from 'axios'
 export default {
   state: {
     username: '',
-    user_id: ''
+    user_id: '',
+    userInfo: {
+      motto: '编辑个性签名'
+    }
   },
   mutations: {
     logedIn (state, payload) {
@@ -21,6 +24,9 @@ export default {
     getuser (state) {
       state.user_id = localStorage.getItem('user_id')
       state.username = localStorage.getItem('username')
+    },
+    changeMotto (state, payload) {
+      state.userInfo.motto = payload.userInfo.motto
     }
   },
   actions: {
@@ -44,6 +50,23 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+      })
+    },
+    changeMotto ({commit}, payload) {
+      console.log(payload)
+      let url = `/api/accounts/${payload.user_id}`
+      axios.patch(url, {
+        motto: payload.motto
+      })
+      .then((res) => {
+        console.log(res)
+        commit({
+          type: 'changeMotto',
+          userInfo: res.data
+        })
+      })
+      .catch((err) => {
+        console.log(err)
       })
     }
   }

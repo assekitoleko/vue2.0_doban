@@ -39,4 +39,7 @@ export default {
  #app{
    min-height: 500px;
  }
+ input{
+   outline:none;
+ }
 </style>

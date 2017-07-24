@@ -1,44 +1,56 @@
 <template>
   <div id='user' class='main'>
-    <div class='person_info'>
-      <i class='iconfont icon1'></i>
-      <div>
-        <span class='username'>{{username}}</span>
-        <p class='motto'>{{motto}}</p>
+    <div>
+      <div class='person_info'>
+        <i class='iconfont icon1'></i>
+        <div>
+          <span class='username'>{{username}}</span>
+          <p class='motto'>
+            <template v-if='!editState'>
+              <span>{{userInfo.motto}}</span>
+              <a href='javascript:void(0)' @click='editState = true'>(编辑)</a>
+            </template>
+            <template v-if='editState'>
+              <input v-model='tmpMotto' :placeholder="userInfo.motto" />
+              <button @click='changeMotto'>修改</button>
+              <button @click='editState = false'>取消</button>
+            </template>
+          </p>
+        </div>
       </div>
-    </div>
-    <div class='person_info_items'>
-      <draggable :options="{animation:150, handle:'.user_item_title', ghostClass:'ghost_user_item'}">
-        <!-- <transition-group> -->
-          <div class='user_info_item' key='1'>
-            <p class='user_item_title'><i class='iconfont icon3 icon_item'></i>我的相册......</p>
-            <p>可以有自己的相册放自己的照片了</p>
-          </div>
-          <div class='user_info_item' key='2'>
-            <p class='user_item_title'><i class='iconfont icon4 icon_item'></i>我的日记......</p>
-            <p>在豆瓣上写日记，记录自己的生活、想法。</p>
-          </div>
-          <div class='user_info_item' key='3'>
-            <p class='user_item_title'><i class='iconfont icon2 icon_item'></i>我喜欢......</p>
-          </div>
-          <div class='user_info_item' key='4'>
-            <p class='user_item_title'><i class='iconfont icon5 icon_item'></i>我关注的小站......</p>
-          </div>
-          <div class='user_info_item' key='5'>
-            <p class='user_item_title'><i class='iconfont icon6 icon_item'></i>留言板......</p>
-            <p>
-              <textarea rows='3' resize='none'></textarea>
-              <button @click='leaveMessage'>留言</button>
-            </p>
-          </div>
-          <div class='user_info_item' key='6'>
-            <p class='user_item_title'><i class='iconfont icon8 icon_item'></i>我读......</p>
-          </div>
-          <div class='user_info_item' key='7'>
-            <p class='user_item_title'><i class='iconfont icon7 icon_item'></i>我看......</p>
-          </div>
-        <!-- </transition-group> -->
-      </draggable>
+      <div class='person_info_items'>
+        <draggable :options="{animation:150, handle:'.user_item_title', ghostClass:'ghost_user_item'}">
+          <!-- <transition-group> -->
+            <div class='user_info_item' key='1'>
+              <p class='user_item_title'><i class='iconfont icon3 icon_item'></i>我的相册......</p>
+              <p>可以有自己的相册放自己的照片了</p>
+            </div>
+            <div class='user_info_item' key='2'>
+              <p class='user_item_title'><i class='iconfont icon4 icon_item'></i>我的日记......</p>
+              <p>在豆瓣上写日记，记录自己的生活、想法。</p>
+            </div>
+            <div class='user_info_item' key='3'>
+              <p class='user_item_title'><i class='iconfont icon2 icon_item'></i>我喜欢......</p>
+            </div>
+            <div class='user_info_item' key='4'>
+              <p class='user_item_title'><i class='iconfont icon5 icon_item'></i>我关注的小站......</p>
+            </div>
+            <div class='user_info_item' key='5'>
+              <p class='user_item_title'><i class='iconfont icon6 icon_item'></i>留言板......</p>
+              <p>
+                <textarea rows='3' resize='none'></textarea>
+                <button @click='leaveMessage'>留言</button>
+              </p>
+            </div>
+            <div class='user_info_item' key='6'>
+              <p class='user_item_title'><i class='iconfont icon8 icon_item'></i>我读......</p>
+            </div>
+            <div class='user_info_item' key='7'>
+              <p class='user_item_title'><i class='iconfont icon7 icon_item'></i>我看......</p>
+            </div>
+          <!-- </transition-group> -->
+        </draggable>
+      </div>
     </div>
   </div>
 </template>
@@ -46,19 +58,22 @@
   // import {mapGetters} from 'vuex'
   import store from '../store/index'
   import draggable from 'vuedraggable'
+  import {mapState} from 'vuex'
 
   export default {
     name: 'user',
     data () {
       return {
-        motto: 'what a good day',
-        tabItems: ['我的主页', '广播', '相册', '日记', '喜欢', '豆列', '设置']
+        editState: false,
+        tmpMotto: ''
       }
     },
     computed: {
-      username () {
-        return this.$store.state.login.username
-      }
+      ...mapState({
+        userInfo: state => state.login.userInfo,
+        username: state => state.login.username,
+        user_id: state => state.login.user_id
+      })
     },
     components: {
       draggable
@@ -66,6 +81,14 @@
     methods: {
       leaveMessage () {
 
+      },
+      changeMotto () {
+        this.$store.dispatch({
+          type: 'changeMotto',
+          motto: this.tmpMotto,
+          user_id: this.user_id
+        })
+        this.editState = false
       }
     },
     beforeRouteEnter (to, from, next) {

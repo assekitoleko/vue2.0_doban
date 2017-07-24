@@ -32,7 +32,8 @@
     {
       "username": "sgq",
       "passrowd": "123456",
-      "id": 1
+      "id": 1,
+      "motto": "what a bad day"
     }
   ]
 }
