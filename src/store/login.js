@@ -27,6 +27,9 @@ export default {
     },
     changeMotto (state, payload) {
       state.userInfo.motto = payload.userInfo.motto
+    },
+    fetchUserInfo (state, payload) {
+      state.userInfo.motto = payload.userInfo.motto
     }
   },
   actions: {
@@ -67,6 +70,23 @@ export default {
       })
       .catch((err) => {
         console.log(err)
+      })
+    },
+    fetchUserInfo ({commit}, payload) {
+      return new Promise((resolve, reject) => {
+        let url = `/api/accounts/${payload.user_id}`
+        axios.get(url)
+        .then((res) => {
+          console.log(res)
+          commit({
+            type: 'fetchUserInfo',
+            userInfo: res.data
+          })
+          resolve()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
       })
     }
   }

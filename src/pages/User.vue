@@ -1,6 +1,7 @@
 <template>
   <div id='user' class='main'>
-    <div>
+    <loading v-if='loading'></loading>
+    <div v-if='!loading'>
       <div class='person_info'>
         <i class='iconfont icon1'></i>
         <div>
@@ -8,10 +9,10 @@
           <p class='motto'>
             <template v-if='!editState'>
               <span>{{userInfo.motto}}</span>
-              <a href='javascript:void(0)' @click='editState = true'>(编辑)</a>
+              <a href='javascript:void(0)' @click='editState = true;tmpMotto = userInfo.motto'>(编辑)</a>
             </template>
             <template v-if='editState'>
-              <input v-model='tmpMotto' :placeholder="userInfo.motto" />
+              <input v-model='tmpMotto' />
               <button @click='changeMotto'>修改</button>
               <button @click='editState = false'>取消</button>
             </template>
@@ -43,10 +44,10 @@
               </p>
             </div>
             <div class='user_info_item' key='6'>
-              <p class='user_item_title'><i class='iconfont icon8 icon_item'></i>我读......</p>
+              <p class='user_item_title'><i class='iconfont icon7 icon_item'></i>我读......</p>
             </div>
             <div class='user_info_item' key='7'>
-              <p class='user_item_title'><i class='iconfont icon7 icon_item'></i>我看......</p>
+              <p class='user_item_title'><i class='iconfont icon8 icon_item'></i>我看......</p>
             </div>
           <!-- </transition-group> -->
         </draggable>
@@ -59,13 +60,15 @@
   import store from '../store/index'
   import draggable from 'vuedraggable'
   import {mapState} from 'vuex'
+  import loading from '../components/loading'
 
   export default {
     name: 'user',
     data () {
       return {
         editState: false,
-        tmpMotto: ''
+        tmpMotto: '',
+        loading: true
       }
     },
     computed: {
@@ -76,7 +79,11 @@
       })
     },
     components: {
-      draggable
+      draggable,
+      loading
+    },
+    created () {
+      this.fetchUserInfo()
     },
     methods: {
       leaveMessage () {
@@ -89,6 +96,14 @@
           user_id: this.user_id
         })
         this.editState = false
+      },
+      fetchUserInfo () {
+        this.$store.dispatch({
+          type: 'fetchUserInfo',
+          user_id: this.user_id
+        }).then(() => {
+          this.loading = false
+        })
       }
     },
     beforeRouteEnter (to, from, next) {
