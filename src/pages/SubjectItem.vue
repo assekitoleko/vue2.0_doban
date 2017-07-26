@@ -32,8 +32,8 @@
       </div>
       <marking>
         <template slot="movie">
-          <router-link :to="{ name: 'Login'}">{{subject.wish_count}}人想看</router-link>
-          <router-link :to="{ name: 'Login'}">{{subject.collect_count}}人看过</router-link>
+          <span @click="addWatchState('like')">{{subject.wish_count}}人想看</span>
+          <span @click="addWatchState('watched')">{{subject.collect_count}}人看过</span>
         </template>
       </marking>
       <div>
@@ -96,7 +96,8 @@ export default {
       user_id: state => state.login.user_id,
       username: state => state.login.username,
       posts: state => state.SubjectItem.posts,
-      sub_summary: state => state.SubjectItem.subject.summary.substring(0, 200)
+      sub_summary: state => state.SubjectItem.subject.summary.substring(0, 200),
+      userInfo: state => state.login.userInfo
     })
   },
   methods: {
@@ -150,6 +151,23 @@ export default {
     },
     showSummary () {
       this.showAllSummary = true
+    },
+    addWatchState (type) {
+      if (this.user_id === '') {
+        this.$store.commit('getuser')
+      }
+      if (this.user_id) {
+        this.$store.dispatch({
+          type: 'addWatchState',
+          attr: type,
+          user_id: this.user_id,
+          userInfo: this.userInfo,
+          isAdd: 1,
+          subjectId: this.subject.id
+        })
+      } else {
+        this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}})
+      }
     }
   },
   created () {

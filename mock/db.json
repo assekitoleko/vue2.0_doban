@@ -33,7 +33,13 @@
       "username": "sgq",
       "passrowd": "123456",
       "id": 1,
-      "motto": "what a terrible day hah"
+      "motto": "what a terrible day hah",
+      "like": [
+        "26270502"
+      ],
+      "watched": [
+        "26363254"
+      ]
     }
   ]
 }

@@ -5,7 +5,9 @@ export default {
     username: '',
     user_id: '',
     userInfo: {
-      motto: '编辑个性签名'
+      motto: '编辑个性签名',
+      like: [],
+      watched: []
     }
   },
   mutations: {
@@ -30,6 +32,10 @@ export default {
     },
     fetchUserInfo (state, payload) {
       state.userInfo.motto = payload.userInfo.motto
+    },
+    addWatchState (state, payload) {
+      state.userInfo.like = payload.userInfo.like
+      state.userInfo.watched = payload.userInfo.watched
     }
   },
   actions: {
@@ -86,6 +92,32 @@ export default {
         })
         .catch((err) => {
           console.log(err)
+        })
+      })
+    },
+    addWatchState ({commit}, payload) {
+      return new Promise((resolve, reject) => {
+        console.log(payload.userInfo)
+        let watchArr = payload.userInfo[payload.attr]
+        if (payload.isAdd) {
+          watchArr.push(payload.subjectId)
+        } else {
+          watchArr = watchArr.reduce(function (prev, cur) {
+            if (cur !== payload.subjectId) {
+              prev.push(cur)
+            }
+            return prev
+          }, [])
+        }
+        let url = `/api/accounts/${payload.user_id}`
+        axios.patch(url, {
+          [payload.attr]: watchArr
+        })
+        .then((res) => {
+          commit({
+            type: 'addWatchState',
+            userInfo: res.data
+          })
         })
       })
     }

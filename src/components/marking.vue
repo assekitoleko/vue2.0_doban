@@ -15,12 +15,13 @@
     /*justify-content: space-around;*/
     margin-top: 15px;
   }
-  #marking a{
+  #marking span{
     color: #ffb712;
     border: 1px solid #ffb712;
     border-radius: 4px;
     display: inline-block;
     padding: 10px 20px;
     margin-right: 20px;
+    cursor:pointer;
   }
 </style>
