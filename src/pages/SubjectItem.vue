@@ -33,7 +33,7 @@
       <marking>
         <template slot="movie">
           <span @click="addWatchState('like')">{{subject.wish_count}}人想看</span>
-          <span @click="addWatchState('watched')">{{subject.collect_count}}人看过</span>
+          <span @click="addWatchState('watched')" :style="markedStyle">{{subject.collect_count}}人看过</span>
         </template>
       </marking>
       <div>
@@ -99,6 +99,11 @@ export default {
       sub_summary: state => state.SubjectItem.subject.summary.substring(0, 200),
       userInfo: state => state.login.userInfo
     })
+    // markedStyle () {
+    //   return {
+    //     color:
+    //   }
+    // }
   },
   methods: {
     getSingleSubject (classify, id) {

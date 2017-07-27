@@ -14,6 +14,9 @@ export default {
     logedIn (state, payload) {
       state.user_id = payload.userInfo.id
       state.username = payload.userInfo.username
+      state.userInfo.motto = payload.userInfo.motto
+      state.userInfo.like = payload.userInfo.like
+      state.userInfo.watched = payload.userInfo.watched
       localStorage.setItem('user_id', payload.userInfo.id)
       localStorage.setItem('username', payload.userInfo.username)
     },
