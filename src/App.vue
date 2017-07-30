@@ -13,9 +13,9 @@ import pageFoot from './components/footer'
 export default {
   name: 'app',
   components: {headerNav, pageFoot}
-  // created () {
-  //   this.$store.state.login.user_id = localStorage.getItem('user_id')
-  //   this.$store.state.login.username = localStorage.getItem('username')
+  // beforeCreate () {
+  //   console.log('l wanna see some thing')
+  //   localStorage.removeItem('userInfo')
   // }
 }
 </script>

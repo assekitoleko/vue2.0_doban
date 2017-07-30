@@ -32,8 +32,8 @@
       </div>
       <marking>
         <template slot="movie">
-          <span @click="addWatchState('like')">{{subject.wish_count}}人想看</span>
-          <span @click="addWatchState('watched')" :style="markedStyle">{{subject.collect_count}}人看过</span>
+          <span @click="addWatchState('like')" :style="likedStyle">{{subject.wish_count}}人想看</span>
+          <span @click="addWatchState('watched')" :style="watchedStyle">{{subject.collect_count}}人看过</span>
         </template>
       </marking>
       <div>
@@ -67,7 +67,7 @@
       </div>
     </div>
     <loading v-show="showLoading"></loading>
-    <postComment :user_id='user_id' :item_id='$route.params.id' :username='username' @postCommentCompleted='getNewComment' />
+    <postComment :user_id='userInfo.id' :item_id='$route.params.id' :username='userInfo.username' @postCommentCompleted='getNewComment' />
   </div>
 </template>
 <script>
@@ -93,17 +93,30 @@ export default {
       genres: state => state.SubjectItem.genres,
       countries: state => state.SubjectItem.countries,
       aka: state => state.SubjectItem.aka,
-      user_id: state => state.login.user_id,
-      username: state => state.login.username,
       posts: state => state.SubjectItem.posts,
       sub_summary: state => state.SubjectItem.subject.summary.substring(0, 200),
       userInfo: state => state.login.userInfo
-    })
-    // markedStyle () {
-    //   return {
-    //     color:
-    //   }
-    // }
+    }),
+    watchedStyle () {
+      if (this.userInfo.watched.indexOf(this.subject.id) !== -1) {
+        return {
+          color: '#fff',
+          backgroundColor: '#ffb712'
+        }
+      } else {
+        return {}
+      }
+    },
+    likedStyle () {
+      if (this.userInfo.like.indexOf(this.subject.id) !== -1) {
+        return {
+          color: '#fff',
+          backgroundColor: '#ffb712'
+        }
+      } else {
+        return {}
+      }
+    }
   },
   methods: {
     getSingleSubject (classify, id) {
@@ -116,10 +129,10 @@ export default {
       })
     },
     postComment () {
-      if (this.user_id === '') {
+      if (this.userInfo.id === '') {
         this.$store.commit('getuser')
       }
-      if (this.user_id) {
+      if (this.userInfo.id) {
         this.$modal.show('postComment')
       } else {
         this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}})
@@ -132,11 +145,11 @@ export default {
       })
     },
     votePost (postId, vote) {
-      if (this.user_id === '') {
+      if (this.userInfo.id === '') {
         this.$store.commit('getuser')
       }
-      if (this.user_id) {
-        let isVoted = localStorage.getItem(`${postId}-${this.user_id}`)
+      if (this.userInfo.id) {
+        let isVoted = localStorage.getItem(`${postId}-${this.userInfo.id}`)
         if (isVoted) {
           alert('您已为此评论投过票')
           return
@@ -146,7 +159,7 @@ export default {
             post_id: postId,
             vote: vote + 1
           }).then(() => {
-            localStorage.setItem(`${postId}-${this.user_id}`, 1)
+            localStorage.setItem(`${postId}-${this.userInfo.id}`, 1)
             this.getNewComment()
           })
         }
@@ -158,14 +171,14 @@ export default {
       this.showAllSummary = true
     },
     addWatchState (type) {
-      if (this.user_id === '') {
+      if (this.userInfo.id === '') {
         this.$store.commit('getuser')
       }
-      if (this.user_id) {
+      if (this.userInfo.id) {
         this.$store.dispatch({
           type: 'addWatchState',
           attr: type,
-          user_id: this.user_id,
+          user_id: this.userInfo.id,
           userInfo: this.userInfo,
           isAdd: 1,
           subjectId: this.subject.id
@@ -271,6 +284,7 @@ export default {
         margin: 0;
         span{
           color:#37a;
+          cursor: pointer;
         }
       }
     }

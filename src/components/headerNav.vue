@@ -30,15 +30,15 @@
     },
     computed: {
       logedIn () {
-        if (!this.$store.state.login.user_id) {
+        if (!this.$store.state.login.userInfo.id) {
           this.$store.commit('getuser')
         }
-        return this.$store.state.login.user_id
+        return this.$store.state.login.userInfo.id
       },
       loginInfo () {
         return {
-          username: this.logedIn ? this.$store.state.login.username : '登录',
-          route: this.logedIn ? `/user/${this.$store.state.login.user_id}` : '/login'
+          username: this.logedIn ? this.$store.state.login.userInfo.username : '登录',
+          route: this.logedIn ? `/user/${this.$store.state.login.userInfo.id}` : '/login'
         }
       },
       loginMenuStyle () {

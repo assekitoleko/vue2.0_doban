@@ -2,9 +2,10 @@ import axios from 'axios'
 
 export default {
   state: {
-    username: '',
-    user_id: '',
     userInfo: {
+      username: '',
+      password: '',
+      id: '',
       motto: '编辑个性签名',
       like: [],
       watched: []
@@ -12,41 +13,46 @@ export default {
   },
   mutations: {
     logedIn (state, payload) {
-      state.user_id = payload.userInfo.id
-      state.username = payload.userInfo.username
-      state.userInfo.motto = payload.userInfo.motto
-      state.userInfo.like = payload.userInfo.like
-      state.userInfo.watched = payload.userInfo.watched
-      localStorage.setItem('user_id', payload.userInfo.id)
-      localStorage.setItem('username', payload.userInfo.username)
+      state.userInfo = payload.userInfo
+      let userString = JSON.stringify(payload.userInfo)
+      localStorage.setItem('userInfo', userString)
     },
     logout (state) {
-      state.username = ''
-      state.user_id = ''
-      localStorage.removeItem('user_id')
-      localStorage.removeItem('username')
+      state.userInfo = {
+        username: '',
+        user_id: '',
+        motto: '编辑个性签名',
+        like: [],
+        watched: []
+      }
+      localStorage.removeItem('userInfo')
     },
     getuser (state) {
-      state.user_id = localStorage.getItem('user_id')
-      state.username = localStorage.getItem('username')
+      console.log(10)
+      if (localStorage.getItem('userInfo')) {
+        state.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+      }
     },
     changeMotto (state, payload) {
       state.userInfo.motto = payload.userInfo.motto
-    },
-    fetchUserInfo (state, payload) {
-      state.userInfo.motto = payload.userInfo.motto
+      let userString = JSON.stringify(payload.userInfo)
+      localStorage.setItem('userInfo', userString)
     },
     addWatchState (state, payload) {
       state.userInfo.like = payload.userInfo.like
       state.userInfo.watched = payload.userInfo.watched
+      let userString = JSON.stringify(payload.userInfo)
+      localStorage.setItem('userInfo', userString)
     }
   },
   actions: {
     login ({commit}, payload) {
       return new Promise((resolve, reject) => {
+        console.log(payload)
+        console.log(`/api/accounts?username=${payload.username}&password=${payload.password}`)
         axios.get(`/api/accounts?username=${payload.username}&password=${payload.password}`)
         .then((res) => {
-          // console.log(res)
+          console.log(res)
           if (res.data.length === 0) {
             alert('没有该账户，请重新输入')
             return
@@ -121,6 +127,32 @@ export default {
             type: 'addWatchState',
             userInfo: res.data
           })
+        })
+      })
+    },
+    registerAccount ({commit}, payload) {
+      return new Promise((resolve, reject) => {
+        let url1 = `/api/accounts?username=${payload.username}`
+        let url2 = '/api/accounts'
+        axios.get(url1)
+        .then((res) => {
+          if (res.data.length > 0) {
+            resolve(res.data)
+          } else {
+            axios.post(url2, {
+              username: payload.username,
+              password: payload.password,
+              motto: '编辑个性签名',
+              like: [],
+              watched: []
+            })
+            .then((res) => {
+              resolve(res.data)
+            })
+          }
+        })
+        .catch((err) => {
+          console.log(err)
         })
       })
     }

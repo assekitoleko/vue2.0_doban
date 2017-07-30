@@ -15,7 +15,7 @@
      <input type='submit' name='submit' value="登陆" class='submit' />
     </form>
     <div class='login_right'>
-      <p>>还没有豆瓣账号？<span>立即注册</span></p>
+      <p>>还没有豆瓣账号？<router-link to="/register">立即注册</router-link></p>
       <p><a href="https://www.douban.com/mobile/">>点击下载豆瓣移动应用</a></p>
     </div>
   </div>
@@ -33,7 +33,6 @@
     },
     methods: {
       submit () {
-        // let jsonValue = JSON.stringify(this.user)
         this.$store.dispatch({
           type: 'login',
           username: this.user.username,
@@ -41,7 +40,6 @@
         })
         .then((res) => {
           let redirect = decodeURIComponent(this.$route.query.redirect || `/user/${res.data[0].id}`)
-          console.log(res.data[0].id)
           this.$router.push(redirect)
         })
       }
@@ -104,7 +102,7 @@
       width:310px;
       font-size: 12px;
       color:#666;
-      span{
+      a{
         color:#669;
         cursor: pointer;
       }

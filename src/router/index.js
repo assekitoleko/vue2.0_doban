@@ -11,6 +11,7 @@ import MovieIndex from '../pages/MovieIndex'
 import Celebrity from '../pages/Celebrity'
 import User from '../pages/User'
 import BookItemList from '../pages/BookItemList'
+import Register from '../pages/register'
 // import store from '../store/index'
 
 Vue.use(Router)
@@ -84,6 +85,11 @@ export default new Router({
       meta: {
         requireAuth: true
       }
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     }
   ]
 })
