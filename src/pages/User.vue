@@ -42,7 +42,9 @@
             </p>
           </div>
           <div class='user_info_item' key='6'>
-            <p class='user_item_title'><i class='iconfont icon7 icon_item'></i>我读......</p>
+            <p class='user_item_title'>
+              <i class='iconfont icon7 icon_item'></i>我读......
+            </p>
           </div>
           <div class='user_info_item' key='7'>
             <p class='user_item_title'><i class='iconfont icon8 icon_item'></i>我看......</p>

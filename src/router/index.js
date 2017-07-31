@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '../pages/Index'
+// import Index from '../pages/Index'
 import Movie from '../pages/Movie'
 import Book from '../pages/Book'
 import BookIndex from '../pages/BookIndex'
@@ -21,8 +21,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Index',
-      component: Index
+      redirect: '/movie'
     },
     {
       path: '/movie',
