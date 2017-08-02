@@ -9,7 +9,9 @@ export default {
       motto: '编辑个性签名',
       like: [],
       watched: []
-    }
+    },
+    like_movie: [],
+    watched_movie: []
   },
   mutations: {
     logedIn (state, payload) {
@@ -28,7 +30,6 @@ export default {
       localStorage.removeItem('userInfo')
     },
     getuser (state) {
-      console.log(10)
       if (localStorage.getItem('userInfo')) {
         state.userInfo = JSON.parse(localStorage.getItem('userInfo'))
       }
@@ -118,7 +119,7 @@ export default {
             return prev
           }, [])
         }
-        let url = `/api/accounts/${payload.user_id}`
+        let url = `/api/accounts/${payload.userInfo.user_id}`
         axios.patch(url, {
           [payload.attr]: watchArr
         })

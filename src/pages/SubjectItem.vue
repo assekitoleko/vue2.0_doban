@@ -178,7 +178,6 @@ export default {
         this.$store.dispatch({
           type: 'addWatchState',
           attr: type,
-          user_id: this.userInfo.id,
           userInfo: this.userInfo,
           isAdd: 1,
           subjectId: this.subject.id

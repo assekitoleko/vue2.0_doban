@@ -45,9 +45,41 @@
             <p class='user_item_title'>
               <i class='iconfont icon7 icon_item'></i>我读......
             </p>
+            <div class='mark_item'>
+              <span>想读</span>
+              <div v-for='(book, index) in like_book' :key='index'>
+                <router-link :to="'/movie/subject/' + book.id">
+                  <img :src='book.img' />
+                </router-link>
+              </div>
+            </div>
+            <div class='mark_item'>
+              <span>读过</span>
+              <div v-for='(book, index) in read_book' :key='index'>
+                <router-link :to="'/movie/subject/' + book.id">
+                  <img :src='book.img' />
+                </router-link>
+              </div>
+            </div>
           </div>
           <div class='user_info_item' key='7'>
             <p class='user_item_title'><i class='iconfont icon8 icon_item'></i>我看......</p>
+            <div class='mark_item'>
+              <span>想看</span>
+              <div v-for='(movie, index) in like_movie' :key='index'>
+                <router-link :to="'/movie/subject/' + movie.id">
+                  <img :src='movie.img' />
+                </router-link>
+              </div>
+            </div>
+            <div class='mark_item'>
+              <span>看过</span>
+              <div v-for='(movie, index) in watched_movie' :key='index'>
+                <router-link :to="'/movie/subject/' + movie.id">
+                  <img :src='movie.img' />
+                </router-link>
+              </div>
+            </div>
           </div>
         <!-- </transition-group> -->
       </draggable>
@@ -59,13 +91,18 @@
   import store from '../store/index'
   import draggable from 'vuedraggable'
   import {mapState} from 'vuex'
+  import {likeMovies, watchedMovies, likeBooks, ReadBooks} from '../constants/constants'
 
   export default {
     name: 'user',
     data () {
       return {
         editState: false,
-        tmpMotto: ''
+        tmpMotto: '',
+        like_movie: likeMovies,
+        watched_movie: watchedMovies,
+        like_book: likeBooks,
+        read_book: ReadBooks
       }
     },
     computed: {
@@ -195,6 +232,16 @@
       outline:none;
       padding:4px;
       resize:none;
+    }
+  }
+  .mark_item{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    margin-bottom:15px;
+    span{
+      color:#acacac;
+      font-size:12px;
     }
   }
 }
