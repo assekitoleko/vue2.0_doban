@@ -9,9 +9,7 @@ export default {
       motto: '编辑个性签名',
       like: [],
       watched: []
-    },
-    like_movie: [],
-    watched_movie: []
+    }
   },
   mutations: {
     logedIn (state, payload) {
@@ -119,7 +117,7 @@ export default {
             return prev
           }, [])
         }
-        let url = `/api/accounts/${payload.userInfo.user_id}`
+        let url = `/api/accounts/${payload.userInfo.id}`
         axios.patch(url, {
           [payload.attr]: watchArr
         })

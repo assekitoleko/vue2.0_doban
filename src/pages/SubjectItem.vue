@@ -175,11 +175,12 @@ export default {
         this.$store.commit('getuser')
       }
       if (this.userInfo.id) {
+        let isAdd = this.userInfo[type].indexOf(this.subject.id) !== (-1) ? 0 : 1
         this.$store.dispatch({
           type: 'addWatchState',
           attr: type,
           userInfo: this.userInfo,
-          isAdd: 1,
+          isAdd: isAdd,
           subjectId: this.subject.id
         })
       } else {
@@ -251,6 +252,10 @@ export default {
     color: #fff;
     border: 1px solid transparent;
     cursor: pointer;
+    transition: 0.2s background ease-in;
+  }
+  .editComment:hover{
+    background: #55abed;
   }
   .subject_rating{
     display:flex;

@@ -1,7 +1,7 @@
 <template>
   <div id='bookList'>
     <loading v-show='loading'></loading>
-    <div class='booksWrapper main'>
+    <div class='booksWrapper main' v-if='!loading'>
       <div v-for='book in booksList' :key='book.id' class='book_item'>
         <div><img :src='book.images.medium' /></div>
         <div>
@@ -51,6 +51,12 @@
     },
     created () {
       this.searchBooks()
+    },
+    watch: {
+      $route () {
+        this.loading = true
+        this.searchBooks()
+      }
     }
   }
 </script>
