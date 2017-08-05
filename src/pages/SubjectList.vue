@@ -123,6 +123,10 @@
     },
     watch: {
       '$route': 'getMovieList'
+    },
+    activated () {
+      console.log(this.$data)
+      console.log('this.components be cached')
     }
   }
 </script>

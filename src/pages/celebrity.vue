@@ -68,6 +68,9 @@
     },
     components: {
       loading
+    },
+    activated () {
+      console.log('this component has been cached')
     }
   }
 </script>

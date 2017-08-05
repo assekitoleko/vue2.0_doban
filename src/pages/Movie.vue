@@ -1,7 +1,9 @@
 <template>
   <div id="indexWrapper">
     <sectionHeader :icon="icon" :itemList="itemList" :searchUrl="searchUrl" :searchPlaceholder='searchPlaceholder' :style="{backgroundColor:'#f0f3f5'}"></sectionHeader>
-    <router-view></router-view>
+    <keep-alive include="SubjectList">
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 <script>

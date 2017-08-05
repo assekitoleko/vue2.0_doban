@@ -69,7 +69,7 @@ export default {
         let url = '/doubanapi/v2/movie/' + payload.sort + '?count=20'
         axios.get(url)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           commit({
             type: 'getMovie',
             tag: payload.sort,
