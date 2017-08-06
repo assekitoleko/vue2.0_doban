@@ -84,6 +84,7 @@
   #headerNav ul li{
     margin-left: 15px;
     position: relative;
+    font-size: 18px;
   }
   #headerNav span{
     margin-left: 25px;
@@ -95,14 +96,8 @@
   .movie_option{
     color:#27a
   }
-  .music_option{
-    color:#E4A813
-  }
   .book_option{
     color:#614e3c
-  }
-  .group_option{
-    color:#2AB8CC
   }
   .account_actions{
     display:none;

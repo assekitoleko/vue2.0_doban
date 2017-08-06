@@ -1,7 +1,7 @@
 <template>
   <div id="SubjectItem">
     <div class="subjectWrapper" v-if="!showLoading">
-      <div class="movie_title">{{subject.title}} {{subject.original_title}} <span>({{subject.year}})</span></div>
+      <div class="item_title">{{subject.title}} {{original_title}} <span>({{subject.year}})</span></div>
       <div class="subject_rating">
         <template v-if='subject.rating.average'>
           <rating-star :commitScore='(subject.rating.average)/2'></rating-star>
@@ -10,11 +10,11 @@
         </template>
         <span v-else>尚未上映</span>
       </div>
-      <div class="movie_content">
+      <div class="item_content">
         <div>
           <img :src="subject.images.medium" />
         </div>
-        <div class="movie_content_items">
+        <div class="item_content_items">
           <p><span>导演:</span>
             <router-link v-for="director in directors" :to="'/movie/celebrity/' + director.id" :key="director.id">
               {{director.name}}
@@ -39,7 +39,7 @@
       <div>
         <button class='editComment' @click='postComment'>写点评</button>
       </div>
-      <div class="movie_desc">
+      <div class="item_desc">
         <span style="line-height:30px;">{{subject.title}}的剧情简介.......</span>
         <p v-if='(sub_summary === subject.summary || showAllSummary)'>
           {{subject.summary}}
@@ -49,12 +49,12 @@
         </p>
       </div>
       <div class='postsWrapper' v-show='posts.length'>
-        <p class='movie_desc'>{{subject.title}}的最新评论......</p>
+        <p class='item_desc'>{{subject.title}}的最新评论......</p>
         <div class='posts'>
           <div v-for="post in posts" class='subject_post'>
             <div class='post_title'>
               <p>
-                <span class=post_poster>{{post.username}}</span>
+                <span class='post_poster'>{{post.username}}</span>
                 <span>看过</span>
                 <rating-star :commitScore='post.score'></rating-star>
                 <span class='post_time'>{{post.date}}</span>
@@ -116,6 +116,9 @@ export default {
       } else {
         return {}
       }
+    },
+    original_title () {
+      return this.subject.title === this.subject.original_title ? '' : this.subject.original_title
     }
   },
   methods: {
@@ -190,113 +193,12 @@ export default {
   },
   created () {
     const id = this.$route.params.id
-    const classify = this.$route.params.classify
-    this.getSingleSubject(classify, id)
+    // const classify = this.$route.params.classify
+    this.getSingleSubject('movie', id)
   },
   components: {loading, marking, postComment, ratingStar}
 }
 </script>
-<style lang="scss" scoped>
-  $fontSize:14px;
-  #SubjectItem{
-    width: 500px;
-    margin: 15px auto 0;
-  }
-  .movie_content{
-    display: flex;
-    /*justify-content: center;*/
-  }
-  .movie_content_items{
-    margin-left: 15px;
-    font-size: $fontSize;
-  }
-  .movie_content_items a{
-    color:#111;
-  }
-  .movie_content_items p{
-    line-height: 22px;
-  }
-  .movie_content_items span{
-    color: #666;
-    margin-right: 5px;
-  }
-  .movie_title{
-    font-size: 25px;
-    color: #494949;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  .movie_title span{
-    color: #888;
-  }
-  .movie_desc{
-    color: #072;
-    font-size: 15px;
-    margin: 20px 0
-  }
-  .movie_desc p{
-    font-size: 12px;
-    line-height: 1.72;
-    color: #111;
-    span{
-      color:#37a;
-      margin-left:5px;
-      cursor:pointer;
-    }
-  }
-  .editComment{
-    padding: 6px 14px;
-    margin-top: 15px;
-    border-radius: 3px;
-    background: #337ab7;
-    color: #fff;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: 0.2s background ease-in;
-  }
-  .editComment:hover{
-    background: #55abed;
-  }
-  .subject_rating{
-    display:flex;
-    margin-bottom: 10px;
-    span{
-      margin-left:10px;
-      color: #888;
-    }
-  }
-  .posts{
-    .post_title{
-      display:flex;
-      margin-bottom:6px;
-      justify-content: space-between;
-      p{
-        display:flex;
-        span{
-          margin-right:10px;
-        }
-      }
-      .post_poster{
-        color:#37a;
-        margin-right:4px;
-      }
-      .post_time{
-        color:#aaa;
-        margin-left:15px;
-      }
-      .post_vote{
-        margin: 0;
-        span{
-          color:#37a;
-          cursor: pointer;
-        }
-      }
-    }
-    .subject_post{
-      padding:14px 0;
-      border-top:1px solid #ddd;
-      font-size:14px;
-      color:#494949;
-    }
-  }
+<style lang="scss">
+  @import '../assets/item'
 </style>

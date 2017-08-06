@@ -12,6 +12,8 @@ import Celebrity from '../pages/Celebrity'
 import User from '../pages/User'
 import BookItemList from '../pages/BookItemList'
 import Register from '../pages/register'
+import Test from '../pages/test'
+import BookItem from '../pages/BookItem'
 // import store from '../store/index'
 
 Vue.use(Router)
@@ -47,6 +49,11 @@ export default new Router({
           path: 'celebrity/:id',
           name: 'celebrity',
           component: Celebrity
+        },
+        {
+          path: 'subject/:id',
+          name: 'SubjectItem',
+          component: SubjectItem
         }
       ]
     },
@@ -64,13 +71,13 @@ export default new Router({
           path: '',
           name: 'BookIndex',
           component: BookIndex
+        },
+        {
+          path: 'subject/:id',
+          name: 'BookItem',
+          component: BookItem
         }
       ]
-    },
-    {
-      path: '/:classify/subject/:id',
-      name: 'SubjectItem',
-      component: SubjectItem
     },
     {
       path: '/login',
@@ -89,6 +96,11 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      component: Test
     }
   ]
 })

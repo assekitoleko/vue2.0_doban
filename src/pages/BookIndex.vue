@@ -9,11 +9,11 @@
         </h3>
         <swiper :options='swiperOptions' ref='mySwiper'>
           <swiper-slide v-for='fiction of scienceFictions' :key='fiction.id'>
-            <div class='fiction_item'>
+            <router-link class='fiction_item' :to="'/book/subject/' + fiction.id">
               <img :src='fiction.images.medium' />
               <span class='fiction_item_title'>{{fiction.title}}</span>
               <span class='fiction_item_author'>{{fiction.author.join(',')}}</span>
-            </div>
+            </router-link>
           </swiper-slide>
           <!-- <div class="swiper-pagination" slot="pagination"></div> -->
         </swiper>
@@ -22,20 +22,22 @@
         <h3>爱情小说</h3>
         <div class='loveBooksWrapper'>
           <div v-for='love of loveBooks' :key='love.id' class='love_book'>
-            <div class='love_info'>
-              <div class='love_cover'><img :src='love.images.small' /></div>
-              <div>
-                <p>{{love.title}}</p>
-                <p class='love_rating'>
-                  <rating-star :commitScore='(love.rating.average/2)'></rating-star><span>{{love.rating.average}}</span>
-                </p>
-                <p>作者: {{love.author.join(',')}}</p>
-                <p>{{love.publisher}}</p>
+            <router-link :to="'/book/subject/' + love.id">
+              <div class='love_info'>
+                <div class='love_cover'><img :src='love.images.small' /></div>
+                <div>
+                  <p>{{love.title}}</p>
+                  <p class='love_rating'>
+                    <rating-star :commitScore='(love.rating.average/2)'></rating-star><span>{{love.rating.average}}</span>
+                  </p>
+                  <p>作者: {{love.author.join(',')}}</p>
+                  <p>{{love.publisher}}</p>
+                </div>
               </div>
-            </div>
-            <div class='love_summary'>
-              {{love.summary}}
-            </div>
+              <div class='love_summary'>
+                {{love.summary}}
+              </div>
+            </router-link>
           </div>
         </div>
       </div>

@@ -1,7 +1,9 @@
 <template>
   <div id="bookWrapper">
     <SectionHeader :icon='icon' :itemList='itemList' :searchUrl='searchUrl' :searchPlaceholder='searchPlaceholder' :style="{backgroundColor:'#f6f6f1'}"></SectionHeader>
-    <router-view></router-view>
+    <keep-alive include="BookItemList">
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 <script>

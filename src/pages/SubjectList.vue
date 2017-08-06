@@ -24,7 +24,7 @@
           <router-link :to="'/movie/subject/' + movie.id" class="movie_item">
             <div><img :src="movie.images.medium" /></div>
             <div class="movie_item_desc">
-              <p>{{movie.title}} {{movie.original_title}}</p>
+              <p>{{movie.title}} {{movie.original_title | showOriginTitle(movie.title)}}</p>
               <p>{{movie.year}}</p>
               <p class='subject_rating'>
                 <template v-if='movie.rating.average'>
@@ -77,7 +77,6 @@
     },
     methods: {
       getMovieList () {
-        this.loading = true
         let content = this.$route.params.content
         if (!content) {
           let type = this.$route.params.type
@@ -121,12 +120,18 @@
       loading,
       ratingStar
     },
-    watch: {
-      '$route': 'getMovieList'
+    beforeRouteUpdate (to, from, next) {
+      this.loading = true
+      this.getMovieList()
+      next()
     },
     activated () {
-      console.log(this.$data)
-      console.log('this.components be cached')
+      this.getMovieList()
+    },
+    filters: {
+      showOriginTitle (value, title) {
+        return value === title ? '' : value
+      }
     }
   }
 </script>

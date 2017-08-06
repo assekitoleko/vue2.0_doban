@@ -3,17 +3,19 @@
     <loading v-show='loading'></loading>
     <div class='booksWrapper main' v-if='!loading'>
       <div v-for='book in booksList' :key='book.id' class='book_item'>
-        <div><img :src='book.images.medium' /></div>
-        <div>
-          <p class='book_title'>{{book.title}}</p>
-          <p>{{book.author.join(',')}} / {{book.publisher}} / {{book.pubdate}} / {{book.price}}</p>
-          <p class='book_rating'>
-            <rating-star :commitScore='(book.rating.average)/2'></rating-star>
-            <span class='book_rating_score'>{{book.rating.average}}</span>
-            <span>({{book.rating.numRaters}}人评价)</span>
-          </p>
-          <p class="book_summary">{{book.summary}}</p>
-        </div>
+        <router-link :to="'/book/subject/' + book.id">
+          <div><img :src='book.images.medium' /></div>
+          <div>
+            <p class='book_title'>{{book.title}}</p>
+            <p>{{book.author.join(',')}} / {{book.publisher}} / {{book.pubdate}} / {{book.price}}</p>
+            <p class='book_rating'>
+              <rating-star :commitScore='(book.rating.average)/2'></rating-star>
+              <span class='book_rating_score'>{{book.rating.average}}</span>
+              <span>({{book.rating.numRaters}}人评价)</span>
+            </p>
+            <p class="book_summary">{{book.summary}}</p>
+          </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -52,11 +54,10 @@
     created () {
       this.searchBooks()
     },
-    watch: {
-      $route () {
-        this.loading = true
-        this.searchBooks()
-      }
+    beforeRouteUpdate (to, from, next) {
+      this.loaing = true
+      this.searchBooks()
+      next()
     }
   }
 </script>
