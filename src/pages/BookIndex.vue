@@ -156,6 +156,7 @@
       }
       p{
         line-height:20px;
+        color: #111;
       }
       p:first-child{
         font-size: 14px;

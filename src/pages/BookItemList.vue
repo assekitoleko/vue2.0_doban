@@ -63,13 +63,15 @@
 </script>
 <style scoped lang='scss'>
   .book_item{
-    display:flex;
     font-size:12px;
-    color: #666;
     margin: 15px 0;
+    a{
+      display: flex;
+    }
     p{
       line-height:24px;
       margin-left:10px;
+      color: #111;
     }
     p.book_title{
       color:#37a;
@@ -90,6 +92,7 @@
       display:-webkit-box;
       -webkit-box-orient:vertical;
       -webkit-line-clamp:3;
+      color:#666
     }
   }
 </style>

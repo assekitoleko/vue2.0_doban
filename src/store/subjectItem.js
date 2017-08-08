@@ -16,11 +16,13 @@ export default {
     getSingleSubject (state, payload) {
       state.classify = payload.classify
       state.subject = payload.res
-      state.directors = payload.res.directors
-      state.casts = payload.res.casts
-      state.genres = payload.res.genres.join('/')
-      state.countries = payload.res.countries.join('/')
-      state.aka = payload.res.aka.join(',')
+      if (payload.classify !== 'book') {
+        state.directors = payload.res.directors
+        state.casts = payload.res.casts
+        state.genres = payload.res.genres.join('/')
+        state.countries = payload.res.countries.join('/')
+        state.aka = payload.res.aka.join(',')
+      }
     },
     getSubjectComment (state, payload) {
       state.posts = payload.res
@@ -34,12 +36,10 @@ export default {
   },
   actions: {
     getSingleSubject ({commit}, payload) {
-      console.log('some some')
       return new Promise((resolve, reject) => {
         let url = '/doubanapi/v2/' + payload.classify + (payload.classify === 'book' ? '/' : '/subject/') + payload.id
         axios.all([axios.get(url), axios.get(`/api/comments?item_id=${payload.id}`)])
         .then(axios.spread((res1, res2) => {
-          console.log(res1 + ':::' + res2)
           commit({
             type: 'getSingleSubject',
             classify: payload.classify,

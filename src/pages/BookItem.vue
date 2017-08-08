@@ -6,31 +6,38 @@
       <div class="subject_rating">
         <rating-star :commitScore='(subject.rating.average)/2'></rating-star>
         <span>{{subject.rating.average}}</span>
-        <span>{{subject.ratings_count}}人评价</span>
+        <span>{{subject.rating.numRaters}}人评价</span>
       </div>
       <div class='item_content'>
         <div>
           <img :src="subject.images.medium" />
         </div>
         <div class='item_content_items'>
-          <p><span>作者:</span>
-            <router-link v-for="director in directors" :to="'/movie/celebrity/' + director.id" :key="director.id">
-              {{director.name}}
-            </router-link>
+          <p>
+            <span class='item_title'>作者:</span><span class='item_value'>{{author}}</span>
+          </p>
+          <p>
+            <span class='item_title'>出版社:</span><span class='item_value'>{{subject.publisher}}</span>
+          </p>
+          <p v-if="subject.translator">
+            <span class='item_title'>译者:</span><span class='item_value'>{{translator}}</span>
+          </p>
+          <p>
+            <span class='item_title'>出版年:</span></span class='item_value'>{{subject.pubdate}}</span>
+          </p>
+          <p>
+            <span class='item_title'>页数:</span><span class='item_value'>{{subject.pages}}</span>
+          </p>
+          <p>
+            <span class='item_title'>定价:</span><span class='item_value'>{{subject.price}}</span>
           </p>
         </div>
       </div>
-      <marking>
-        <template slot='book'>
-          <span @click="addWatchState('like')" :style="likedStyle">{{subject.wish_count}}人想读</span>
-          <span @click="addWatchState('watched')" :style="watchedStyle">{{subject.collect_count}}人读过</span>
-        </template>
-      </marking>
       <div>
         <button class='editComment' @click='postComment'>写点评</button>
       </div>
       <div class="item_desc">
-        <span style="line-height:30px;">{{subject.title}}的剧情简介.......</span>
+        <span style="line-height:30px;">内容简介.......</span>
         <p v-if='(sub_summary === subject.summary || showAllSummary)'>
           {{subject.summary}}
         </p>
@@ -71,7 +78,7 @@
     name: 'BookItem',
     data () {
       return {
-        loading: false,
+        loading: true,
         showAllSummary: false
       }
     },
@@ -85,8 +92,15 @@
       ...mapState({
         userInfo: state => state.login.userInfo,
         subject: state => state.SubjectItem.subject,
-        posts: state => state.SubjectItem.posts
+        posts: state => state.SubjectItem.posts,
+        sub_summary: state => state.SubjectItem.subject.summary.substring(0, 200)
       }),
+      author () {
+        return this.subject.author.join(',')
+      },
+      translator () {
+        return this.subject.translator.join(',')
+      },
       watchedStyle () {
         if (this.userInfo.watched.indexOf(this.subject.id) !== -1) {
           return {
@@ -166,6 +180,16 @@
           type: 'getNewComment',
           item_id: this.subject.id
         })
+      },
+      postComment () {
+        if (this.userInfo.id === '') {
+          this.$store.commit('getuser')
+        }
+        if (this.userInfo.id) {
+          this.$modal.show('postComment')
+        } else {
+          this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}})
+        }
       }
     },
     created () {
@@ -175,5 +199,15 @@
   }
 </script>
 <style lang='scss'>
-  @import '../assets/item'
+  @import '../assets/item';
+  .item_content_items{
+    .item_title{
+      color:#666;
+      font-size: 12px;
+    }
+    .item_value{
+      color:#111;
+      margin-left:4px;
+    }
+  }
 </style>
