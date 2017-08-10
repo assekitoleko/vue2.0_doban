@@ -8,11 +8,12 @@
           <div>
             <p class='book_title'>{{book.title}}</p>
             <p>{{book.author.join(',')}} / {{book.publisher}} / {{book.pubdate}} / {{book.price}}</p>
-            <p class='book_rating'>
+            <p class='book_rating' v-if = "book.rating.average !=='0.0'">
               <rating-star :commitScore='(book.rating.average)/2'></rating-star>
               <span class='book_rating_score'>{{book.rating.average}}</span>
               <span>({{book.rating.numRaters}}人评价)</span>
             </p>
+            <p v-else>暂无评价</p>
             <p class="book_summary">{{book.summary}}</p>
           </div>
         </router-link>

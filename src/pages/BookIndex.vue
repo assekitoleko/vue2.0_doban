@@ -8,12 +8,15 @@
           <span @click='swiper.slidePrev()' class='slideTurn'>‹</span>
         </h3>
         <swiper :options='swiperOptions' ref='mySwiper'>
-          <swiper-slide v-for='fiction of scienceFictions' :key='fiction.id'>
+          <swiper-slide v-for='(fiction, index) of scienceFictions' :key='fiction.id' class='swiper_slide'>
             <router-link class='fiction_item' :to="'/book/subject/' + fiction.id">
-              <img :src='fiction.images.medium' />
+              <img :src='fiction.images.medium' @mouseenter='switchMoreInfo(index)' @mouseleave='switchMoreInfo' />
               <span class='fiction_item_title'>{{fiction.title}}</span>
               <span class='fiction_item_author'>{{fiction.author.join(',')}}</span>
             </router-link>
+            <div class='book_more_info' :style="{display:index === moreInfoIndex ? 'block' : 'none'}">
+              {{fiction.summary}}
+            </div>
           </swiper-slide>
           <!-- <div class="swiper-pagination" slot="pagination"></div> -->
         </swiper>
@@ -63,10 +66,14 @@
           spaceBetween: 20,
           notNextTick: true
           // paginationClickable: true
-        }
+        },
+        moreInfoIndex: ''
       }
     },
     methods: {
+      switchMoreInfo (index = '') {
+        this.moreInfoIndex = index
+      }
     },
     computed: {
       ...mapState({
@@ -131,6 +138,37 @@
         color:#3377aa
       }
     }
+    .swiper_slide{
+      position:relative;
+      .book_more_info{
+        position:absolute;
+        border:1px solid #acacac;
+        background:#f9f9f7;
+        border-radius: 3px;
+        color:#666;
+        padding:12px 15px;
+        z-index: 999;
+        width:300px;
+        top:0;
+        left:110%;
+        display:none;
+        height:220px;
+      }
+      .book_more_info:before{
+        border:solid transparent;
+        border-right-color:#acacac;
+        border-width:8px;
+        width:0;
+        height:0;
+        content:' ';
+        position:absolute;
+        overflow:hidden;
+        text-overflow: ellipsis;
+        top:73px;
+        margin-top:-8px;
+        right:100%;
+      }
+    }
   }
   .loveBooks{
     width:650px;
@@ -143,7 +181,7 @@
       display:flex;
       flex-direction: column;
       width:290px;
-      margin-bottom:15px;
+      margin-bottom:20px;
       padding-right:20px;
     }
     .love_book:nth-of-type(odd){
@@ -178,7 +216,7 @@
       -webkit-box-orient:vertical;
       -webkit-line-clamp:2;
       color:#666;
-      margin-top:10px;
+      margin-top:5px;
       line-height:20px;
     }
   }

@@ -198,7 +198,7 @@
     }
   }
 </script>
-<style lang='scss'>
+<style lang='scss' scoped>
   @import '../assets/item';
   .item_content_items{
     .item_title{

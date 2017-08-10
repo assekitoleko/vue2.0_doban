@@ -199,6 +199,6 @@ export default {
   components: {loading, marking, postComment, ratingStar}
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   @import '../assets/item'
 </style>
