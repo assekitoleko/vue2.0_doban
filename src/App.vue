@@ -42,4 +42,11 @@ export default {
  input{
    outline:none;
  }
+ .linkStyle{
+   color:#37a;
+ }
+ .linkStyle:hover{
+   color:#fff;
+   background-color:#37a;
+ }
 </style>

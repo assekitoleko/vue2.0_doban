@@ -11,7 +11,7 @@
           <swiper-slide v-for='(fiction, index) of scienceFictions' :key='fiction.id' class='swiper_slide'>
             <router-link class='fiction_item' :to="'/book/subject/' + fiction.id">
               <img :src='fiction.images.medium' @mouseenter='switchMoreInfo(index)' @mouseleave='switchMoreInfo' />
-              <span class='fiction_item_title'>{{fiction.title}}</span>
+              <span><span  class='linkStyle'>{{fiction.title}}</span></span>
               <span class='fiction_item_author'>{{fiction.author.join(',')}}</span>
             </router-link>
             <div class='book_more_info' :style="{display:index === moreInfoIndex ? 'block' : 'none'}">
@@ -29,7 +29,7 @@
               <div class='love_info'>
                 <div class='love_cover'><img :src='love.images.small' /></div>
                 <div>
-                  <p>{{love.title}}</p>
+                  <p><span class='linkStyle'>{{love.title}}</span></p>
                   <p class='love_rating'>
                     <rating-star :commitScore='(love.rating.average/2)'></rating-star><span>{{love.rating.average}}</span>
                   </p>
@@ -134,9 +134,6 @@
       .fiction_item_author{
         color:#333;
       }
-      .fiction_item_title{
-        color:#3377aa
-      }
     }
     .swiper_slide{
       position:relative;
@@ -146,27 +143,35 @@
         background:#f9f9f7;
         border-radius: 3px;
         color:#666;
-        padding:12px 15px;
-        z-index: 999;
+        padding:12px 15px 2px;
+        z-index: 1000;
         width:300px;
-        top:0;
+        top:-40px;
         left:110%;
         display:none;
-        height:220px;
+        height:208px;
       }
-      .book_more_info:before{
+      .book_more_info:before,.book_more_info:after{
         border:solid transparent;
-        border-right-color:#acacac;
-        border-width:8px;
         width:0;
         height:0;
         content:' ';
         position:absolute;
         overflow:hidden;
         text-overflow: ellipsis;
-        top:73px;
-        margin-top:-8px;
         right:100%;
+        top:50%;
+        pointer-events: none;
+      }
+      .book_more_info:before{
+        border-right-color:#acacac;
+        border-width:8px;
+        margin-top: -8px;
+      }
+      .book_more_info:after{
+        border-right-color: #f9f9f7;
+        border-width: 7px;
+        margin-top: -7px;
       }
     }
   }
@@ -198,7 +203,6 @@
       }
       p:first-child{
         font-size: 14px;
-        color: #37a
       }
       p.love_rating{
         display:flex;

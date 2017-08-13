@@ -9,7 +9,7 @@
     <div class="section_header_itemList main">
       <ul>
         <li v-for="item in itemList">
-          <router-link :to="item.path">{{item.title}}</router-link>
+          <router-link :to="item.path" class='linkStyle'>{{item.title}}</router-link>
         </li>
       </ul>
     </div>
@@ -38,7 +38,6 @@
     padding:10px 0;
   }
   .section_header_itemList a{
-    color:#27a;
     font-size:14px;
   }
   .section_header_itemList ul li{

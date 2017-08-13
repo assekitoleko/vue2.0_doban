@@ -7,7 +7,7 @@
         <p class='motto'>
           <template v-if='!editState'>
             <span>{{userInfo.motto}}</span>
-            <a href='javascript:void(0)' @click='editState = true;tmpMotto = userInfo.motto'>(编辑)</a>
+            <a href='javascript:void(0)' @click='editState = true;tmpMotto = userInfo.motto' class='linkStyle'>(编辑)</a>
           </template>
           <template v-if='editState'>
             <input v-model='tmpMotto' />
@@ -18,29 +18,10 @@
       </div>
     </div>
     <div class='person_info_items'>
-      <draggable :options="{animation:150, handle:'.user_item_title', ghostClass:'ghost_user_item'}">
-        <!-- <transition-group> -->
-          <div class='user_info_item' key='1'>
-            <p class='user_item_title'><i class='iconfont icon3 icon_item'></i>我的相册......</p>
-            <p>可以有自己的相册放自己的照片了</p>
-          </div>
-          <div class='user_info_item' key='2'>
-            <p class='user_item_title'><i class='iconfont icon4 icon_item'></i>我的日记......</p>
-            <p>在豆瓣上写日记，记录自己的生活、想法。</p>
-          </div>
-          <div class='user_info_item' key='3'>
-            <p class='user_item_title'><i class='iconfont icon2 icon_item'></i>我喜欢......</p>
-          </div>
-          <div class='user_info_item' key='4'>
-            <p class='user_item_title'><i class='iconfont icon5 icon_item'></i>我关注的小站......</p>
-          </div>
-          <div class='user_info_item' key='5'>
-            <p class='user_item_title'><i class='iconfont icon6 icon_item'></i>留言板......</p>
-            <p>
-              <textarea rows='3' resize='none'></textarea>
-              <button @click='leaveMessage'>留言</button>
-            </p>
-          </div>
+      <draggable v-model='myArray' :options="{animation:150, handle:'.user_item_title', ghostClass:'ghost_user_item'}" @update='onUpdate'>
+        <div v-for='(value, index) in myArray' :key='index'>
+          <component :is='value'></component>
+        </div>
           <div class='user_info_item' key='6'>
             <p class='user_item_title'>
               <i class='iconfont icon7 icon_item'></i>我读......
@@ -48,7 +29,7 @@
             <div class='mark_item'>
               <span>想读</span>
               <div v-for='(book, index) in like_book' :key='index'>
-                <router-link :to="'/movie/subject/' + book.id">
+                <router-link :to="'/book/subject/' + book.id">
                   <img :src='book.img' />
                 </router-link>
               </div>
@@ -56,7 +37,7 @@
             <div class='mark_item'>
               <span>读过</span>
               <div v-for='(book, index) in read_book' :key='index'>
-                <router-link :to="'/movie/subject/' + book.id">
+                <router-link :to="'/book/subject/' + book.id">
                   <img :src='book.img' />
                 </router-link>
               </div>
@@ -81,7 +62,6 @@
               </div>
             </div>
           </div>
-        <!-- </transition-group> -->
       </draggable>
     </div>
   </div>
@@ -93,6 +73,82 @@
   import {mapState} from 'vuex'
   import {likeMovies, watchedMovies, likeBooks, ReadBooks} from '../constants/constants'
 
+  let k1 = {
+    template: `<div class='user_info_item' key='1'>
+              <p class='user_item_title'><i class='iconfont icon3 icon_item'></i>我的相册......</p>
+              <p>可以有自己的相册放自己的照片了</p>
+              </div>`
+  }
+  let k2 = {
+    template: `<div class='user_info_item' key='2'>
+              <p class='user_item_title'><i class='iconfont icon4 icon_item'></i>我的日记......</p>
+              <p>在豆瓣上写日记，记录自己的生活、想法。</p>
+              </div>`
+  }
+  let k3 = {
+    template: `<div class='user_info_item' key='3'>
+              <p class='user_item_title'><i class='iconfont icon2 icon_item'></i>我喜欢......</p>
+              </div>`
+  }
+  let k4 = {
+    template: `<div class='user_info_item' key='4'>
+              <p class='user_item_title'><i class='iconfont icon5 icon_item'></i>我关注的小站......</p>
+              </div>`
+  }
+  let k5 = {
+    template: `<div class='user_info_item' key='5'>
+                <p class='user_item_title'><i class='iconfont icon6 icon_item'></i>留言板......</p>
+                <p>
+                  <textarea rows='3' resize='none'></textarea>
+                  <button>留言</button>
+                </p>
+              </div>`
+  }
+  let k6 = {
+    template: `<div class='user_info_item' key='6'>
+                <p class='user_item_title'>
+                  <i class='iconfont icon7 icon_item'></i>我读......
+                </p>
+                <div class='mark_item'>
+                  <span>想读</span>
+                  <div v-for='(book, index) in ${likeBooks}' :key='index'>
+                    <router-link :to="'/book/subject/' + book.id">
+                      <img :src='book.img' />
+                    </router-link>
+                  </div>
+                </div>
+                <div class='mark_item'>
+                  <span>读过</span>
+                  <div v-for='(book, index) in ${ReadBooks}' :key='index'>
+                    <router-link :to="'/book/subject/' + book.id">
+                      <img :src='book.img' />
+                    </router-link>
+                  </div>
+                </div>
+                </div>`
+  }
+  let k7 = {
+    template: `<div class='user_info_item' key='7'>
+                <p class='user_item_title'><i class='iconfont icon8 icon_item'></i>我看......</p>
+                <div class='mark_item'>
+                  <span>想看</span>
+                  <div v-for='(movie, index) in ${likeMovies}' :key='index'>
+                    <router-link :to="'/movie/subject/' + movie.id">
+                      <img :src='movie.img' />
+                    </router-link>
+                  </div>
+                </div>
+                <div class='mark_item'>
+                  <span>看过</span>
+                  <div v-for='(movie, index) in ${watchedMovies}' :key='index'>
+                    <router-link :to="'/movie/subject/' + movie.id">
+                      <img :src='movie.img' />
+                    </router-link>
+                  </div>
+                </div>
+              </div>`
+  }
+
   export default {
     name: 'user',
     data () {
@@ -102,7 +158,8 @@
         like_movie: likeMovies,
         watched_movie: watchedMovies,
         like_book: likeBooks,
-        read_book: ReadBooks
+        read_book: ReadBooks,
+        myArray: ['k1', 'k2', 'k3', 'k4', 'k5', 'k6', 'k7']
       }
     },
     computed: {
@@ -111,12 +168,9 @@
       })
     },
     components: {
-      draggable
+      draggable, k1, k2, k3, k4, k5, k6, k7
     },
     methods: {
-      leaveMessage () {
-
-      },
       changeMotto () {
         this.$store.dispatch({
           type: 'changeMotto',
@@ -124,6 +178,9 @@
           user_id: this.userInfo.id
         })
         this.editState = false
+      },
+      onUpdate () {
+        console.log()
       }
     },
     beforeRouteEnter (to, from, next) {
