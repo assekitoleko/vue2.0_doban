@@ -22,46 +22,6 @@
         <div v-for='(value, index) in myArray' :key='index'>
           <component :is='value'></component>
         </div>
-          <div class='user_info_item' key='6'>
-            <p class='user_item_title'>
-              <i class='iconfont icon7 icon_item'></i>我读......
-            </p>
-            <div class='mark_item'>
-              <span>想读</span>
-              <div v-for='(book, index) in like_book' :key='index'>
-                <router-link :to="'/book/subject/' + book.id">
-                  <img :src='book.img' />
-                </router-link>
-              </div>
-            </div>
-            <div class='mark_item'>
-              <span>读过</span>
-              <div v-for='(book, index) in read_book' :key='index'>
-                <router-link :to="'/book/subject/' + book.id">
-                  <img :src='book.img' />
-                </router-link>
-              </div>
-            </div>
-          </div>
-          <div class='user_info_item' key='7'>
-            <p class='user_item_title'><i class='iconfont icon8 icon_item'></i>我看......</p>
-            <div class='mark_item'>
-              <span>想看</span>
-              <div v-for='(movie, index) in like_movie' :key='index'>
-                <router-link :to="'/movie/subject/' + movie.id">
-                  <img :src='movie.img' />
-                </router-link>
-              </div>
-            </div>
-            <div class='mark_item'>
-              <span>看过</span>
-              <div v-for='(movie, index) in watched_movie' :key='index'>
-                <router-link :to="'/movie/subject/' + movie.id">
-                  <img :src='movie.img' />
-                </router-link>
-              </div>
-            </div>
-          </div>
       </draggable>
     </div>
   </div>
@@ -111,7 +71,7 @@
                 </p>
                 <div class='mark_item'>
                   <span>想读</span>
-                  <div v-for='(book, index) in ${likeBooks}' :key='index'>
+                  <div v-for='(book, index) in likeBook' :key='index'>
                     <router-link :to="'/book/subject/' + book.id">
                       <img :src='book.img' />
                     </router-link>
@@ -119,20 +79,32 @@
                 </div>
                 <div class='mark_item'>
                   <span>读过</span>
-                  <div v-for='(book, index) in ${ReadBooks}' :key='index'>
+                  <div v-for='(book, index) in readBook' :key='index'>
                     <router-link :to="'/book/subject/' + book.id">
                       <img :src='book.img' />
                     </router-link>
                   </div>
                 </div>
-                </div>`
+                </div>`,
+    props: {
+      likeBook: {
+        default: function () {
+          return likeBooks
+        }
+      },
+      readBook: {
+        default: function () {
+          return ReadBooks
+        }
+      }
+    }
   }
   let k7 = {
     template: `<div class='user_info_item' key='7'>
                 <p class='user_item_title'><i class='iconfont icon8 icon_item'></i>我看......</p>
                 <div class='mark_item'>
                   <span>想看</span>
-                  <div v-for='(movie, index) in ${likeMovies}' :key='index'>
+                  <div v-for='(movie, index) in likeMovie' :key='index'>
                     <router-link :to="'/movie/subject/' + movie.id">
                       <img :src='movie.img' />
                     </router-link>
@@ -140,13 +112,25 @@
                 </div>
                 <div class='mark_item'>
                   <span>看过</span>
-                  <div v-for='(movie, index) in ${watchedMovies}' :key='index'>
+                  <div v-for='(movie, index) in watchedMovie' :key='index'>
                     <router-link :to="'/movie/subject/' + movie.id">
                       <img :src='movie.img' />
                     </router-link>
                   </div>
                 </div>
-              </div>`
+              </div>`,
+    props: {
+      likeMovie: {
+        default: function () {
+          return likeMovies
+        }
+      },
+      watchedMovie: {
+        default: function () {
+          return watchedMovies
+        }
+      }
+    }
   }
 
   export default {
@@ -180,7 +164,14 @@
         this.editState = false
       },
       onUpdate () {
-        console.log()
+        let queue = JSON.stringify(this.myArray)
+        localStorage.setItem(this.userInfo.id + 'itemQueue', queue)
+      }
+    },
+    created () {
+      let storageQueue = localStorage.getItem(this.userInfo.id + 'itemQueue')
+      if (storageQueue) {
+        this.myArray = JSON.parse(storageQueue)
       }
     },
     beforeRouteEnter (to, from, next) {
