@@ -38,10 +38,10 @@
       ratingStar
     },
     methods: {
-      searchBooks () {
+      searchBooks (searchContent = '') {
         this.$store.dispatch({
           type: 'searchBooks',
-          content: this.$route.params.content
+          content: searchContent || this.$route.params.content
         }).then(() => {
           this.loading = false
         })
@@ -56,8 +56,9 @@
       this.searchBooks()
     },
     beforeRouteUpdate (to, from, next) {
+      let content = to.params.content
       this.loaing = true
-      this.searchBooks()
+      this.searchBooks(content)
       next()
     }
   }

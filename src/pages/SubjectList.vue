@@ -76,10 +76,10 @@
       }
     },
     methods: {
-      getMovieList () {
-        let content = this.$route.params.content
+      getMovieList (searchContent = '', listType = '') {
+        let content = searchContent || this.$route.params.content
         if (!content) {
-          let type = this.$route.params.type
+          let type = listType || this.$route.params.type
           this.$store.dispatch({
             type: 'getMovieList',
             sort: type
@@ -120,13 +120,21 @@
       loading,
       ratingStar
     },
-    beforeRouteUpdate (to, from, next) {
-      this.loading = true
-      this.getMovieList()
-      next()
-    },
+    // beforeRouteUpdate (to, from, next) {
+    //   let content = to.params.content
+    //   let type = to.params.type
+    //   this.loading = true
+    //   this.getMovieList(content, type)
+    //   next()
+    // },
     activated () {
       this.getMovieList()
+    },
+    watch: {
+      $route (to, from) {
+        this.loading = true
+        this.getMovieList()
+      }
     },
     filters: {
       showOriginTitle (value, title) {

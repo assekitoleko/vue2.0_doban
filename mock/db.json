@@ -76,6 +76,16 @@
       "vote": 1,
       "date": "2017-08-08",
       "id": 7
+    },
+    {
+      "user_id": 1,
+      "item_id": "26314798",
+      "comment": "tset dddd",
+      "username": "sgq",
+      "score": 5,
+      "vote": 0,
+      "date": "2017-08-15",
+      "id": 8
     }
   ],
   "accounts": [

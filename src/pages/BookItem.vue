@@ -56,7 +56,7 @@
                 <rating-star :commitScore='post.score'></rating-star>
                 <span class='post_time'>{{post.date}}</span>
               </p>
-              <span class='post_vote'>{{post.vote}} <span @click='votePost(post.id, post.vote)'>有用</span></span>
+              <span class='post_vote'>{{post.vote}} <span @click='votePost(post.id, post.vote)' class='linkStyle'>有用</span></span>
             </div>
             <div>{{post.comment}}</div>
           </div>
@@ -172,7 +172,7 @@
             })
           }
         } else {
-          this.$route.push({path: '/login', query: {redirect: this.$route.fullPath}})
+          this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}})
         }
       },
       getNewComment () {

@@ -2,8 +2,8 @@
   <div id='section_header_wrapper'>
     <div class="section_header_title main">
       <img :src="icon" />
-      <div class="inp"><input type="text" :placeholder="searchPlaceholder" v-model="content" /></div>
-      <router-link :to="searchUrl + content" class="search_button"></router-link>
+      <div class="inp"><input type="text" :placeholder="searchPlaceholder" v-model="content" @keydown='search' /></div>
+      <router-link :to="searchUrl + content" class="search_button" ref='search'></router-link>
     </div>
     <div class="section_divider"></div>
     <div class="section_header_itemList main">
@@ -22,6 +22,17 @@
     data () {
       return {
         content: ''
+      }
+    },
+    methods: {
+      search (event) {
+        if (event.keyCode === 13) {
+          if (this.content === '') {
+            alert('请输入搜索内容')
+            return
+          }
+          this.$router.push(this.searchUrl + this.content)
+        }
       }
     }
   }
