@@ -132,7 +132,7 @@
     },
     watch: {
       $route (to, from) {
-        this.loading = true
+        // this.loading = true
         this.getMovieList()
       }
     },
