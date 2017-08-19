@@ -127,12 +127,12 @@
     //   this.getMovieList(content, type)
     //   next()
     // },
-    activated () {
-      this.getMovieList()
-    },
+    // activated () {
+    //   this.getMovieList()
+    // },
     watch: {
       $route (to, from) {
-        // this.loading = true
+        this.loading = true
         this.getMovieList()
       }
     },
