@@ -17,6 +17,6 @@
     text-align:center;
   }
   img {
-    widht:80px;
+    width:80px;
   }
 </style>
