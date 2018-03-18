@@ -2,14 +2,14 @@
   <div id='ratingStarWrapper'>
     <template v-if='!commitScore'>
       <span class='ratingStar' :style='backgroundPosition'>
-        <span v-for='n in 5' @mouseenter='rateEnter(n)' @mouseleave='rateLeave()' @click='rateScore(n)'></span>
+        <span v-for='n in 5' @mouseenter='rateEnter(n)' @mouseleave='rateLeave()' @click='rateScore(n)' :key = 'n'></span>
       </span>
       <span class='rating-star-desc'>{{description}}</span>
       <input type='hidden' v-model="score" />
     </template>
     <template v-else>
       <span class='ratingStar' :style='backgroundPosition'>
-        <span v-for='n in 5'></span>
+        <span v-for='n in 5' :key = 'n'></span>
       </span>
     </template>
   </div>
