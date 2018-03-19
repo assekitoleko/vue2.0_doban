@@ -2,15 +2,15 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import Index from '../pages/Index'
 import Movie from '../pages/Movie'
-import Book from '../pages/Book'
+// import Book from '../pages/Book'
 import BookIndex from '../pages/BookIndex'
 import SubjectItem from '../pages/SubjectItem'
-import Login from '../pages/Login'
+// import Login from '../pages/Login'
 import SubjectList from '../pages/SubjectList'
 import MovieIndex from '../pages/MovieIndex'
 import Celebrity from '../pages/Celebrity'
-import User from '../pages/User'
-import BookItemList from '../pages/BookItemList'
+// import User from '../pages/User'
+// import BookItemList from '../pages/BookItemList'
 import Register from '../pages/register'
 import Test from '../pages/test'
 import BookItem from '../pages/BookItem'
@@ -60,12 +60,12 @@ export default new Router({
     {
       path: '/book',
       name: 'Book',
-      component: Book,
+      component: () => import(/* webpackChunkName: "group-foo" */'../pages/Book.vue'),
       children: [
         {
           path: 'search/:content',
           name: 'BookItemList',
-          component: BookItemList
+          component: () => import(/* webpackChunkName: "group-foo" */'../pages/BookItemList.vue')
         },
         {
           path: '',
@@ -82,12 +82,12 @@ export default new Router({
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: () => import(/* webpackChunkName: "group-foo" */'../pages/Login.vue')
     },
     {
       path: '/user/:id',
       name: 'User',
-      component: User,
+      component: () => import(/* webpackChunkName: "group-foo" */'../pages/User.vue'),
       meta: {
         requireAuth: true
       }
