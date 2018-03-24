@@ -60,12 +60,6 @@
         this.$store.commit('logout')
         this.$router.push('/login')
       }
-      // getuser () {
-      //   if (!this.$store.state.login.userInfo.username) {
-      //     this.$store.commit('getuser')
-      //   }
-      //   return this.$store.state.login.userInfo.username
-      // }
     }
   }
 </script>
