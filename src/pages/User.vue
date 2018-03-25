@@ -195,7 +195,7 @@
     }
   }
 </script>
-<style scopde lang='scss'>
+<style scoped lang='scss'>
 @font-face {font-family: "iconfont";
   src: url('../assets/iconfont/iconfont.eot?t=1500808064245'); /* IE9*/
   src: url('../assets/iconfont/iconfont.eot?t=1500808064245#iefix') format('embedded-opentype'), /* IE6-IE8 */
